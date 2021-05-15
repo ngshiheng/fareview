@@ -70,9 +70,10 @@ EXTENSIONS = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'fareview.pipelines.FareviewPipeline': 300,
-# }
+ITEM_PIPELINES = {
+    'fareview.pipelines.DuplicatePricePipeline': 300,
+    'fareview.pipelines.NewProductPricePipeline': 400,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -98,7 +99,7 @@ HTTPCACHE_EXPIRATION_SECS = os.environ.get('HTTPCACHE_EXPIRATION_SECS', 0)
 
 # Sentry
 # https://stackoverflow.com/questions/25262765/handle-all-exception-in-scrapy-with-sentry
-SENTRY_DSN = 'https://fa2a66ed7b8e4702b9c405f29a8b5df8@o545253.ingest.sentry.io/5704972'
+SENTRY_DSN = 'https://b850f4b1253f4e98901c6cad3d8b6607@o545253.ingest.sentry.io/5766355'
 
 # PostgreSQL
 DATABASE_CONNECTION_STRING = '{drivername}://{user}:{password}@{host}:{port}/{db_name}'.format(
