@@ -8,19 +8,17 @@ def parse_name(raw_name: str) -> str:
     """
     Sanitize product name
     """
-    logger.info(f'Raw Name = "{raw_name}"')
+    logger.info(f'Parsing raw_name "{raw_name}".')
     remove_brackets = re.sub(r'[\(\[].*?[\]\)]', '', raw_name)  # E.g.: "Somersby Blackberry Cider [CANS] 330ml"
     remove_non_word_characters = re.sub(r'[^a-zA-Z0-9%]', ' ', remove_brackets)
     remove_spaces = re.sub(' +', ' ', remove_non_word_characters)
-    return remove_spaces
+    return remove_spaces.strip()
 
 
 def parse_quantity(raw_name: str) -> int:
     """
     Get product quantity from name
     """
-    logger.info(f'Raw Name = "{raw_name}"')
-
     # Hite Jinro Extra Cold Beer Single Carton
     if 'carton' in raw_name.lower():
         return 24
