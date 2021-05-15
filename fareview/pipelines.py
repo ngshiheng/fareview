@@ -38,9 +38,9 @@ class DuplicatePricePipeline:
         assert spider
         adapter = ItemAdapter(item)
 
-        url = adapter.get('url')
-        quantity = adapter.get('quantity')
-        price = adapter.get('price')
+        url = adapter['url']
+        quantity = adapter['quantity']
+        price = adapter['price']
 
         if price is not None:
             current_price = float(price.amount)  # `.amount` is type of `<class 'decimal.Decimal'>`
@@ -118,10 +118,14 @@ class NewProductPricePipeline:
         adapter = ItemAdapter(item)
 
         product = dict(
+            platform=adapter['platform'],
             name=adapter['name'],
-            vendor=adapter['vendor'],
-            quantity=adapter['quantity'],
+            brand=adapter.get('brand'),
+            vendor=adapter.get('vendor'),
             url=adapter['url'],
+            quantity=adapter['quantity'],
+            reviews=adapter.get('reviews'),
+            ratings=adapter.get('ratings'),
             price=adapter['price'].amount
         )
 

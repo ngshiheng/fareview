@@ -6,6 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import column_property, relationship
 from sqlalchemy.sql.expression import select
 from sqlalchemy.sql.schema import UniqueConstraint
+from sqlalchemy.sql.sqltypes import JSON
 
 settings = get_project_settings()
 
@@ -31,7 +32,7 @@ class Price(Base):
     product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
     product = relationship('Product', backref='prices', cascade='delete')
 
-    price = Column('price', Float)
+    price = Column(Float)
     updated_on = Column(DateTime, default=datetime.datetime.utcnow)
 
     def __repr__(self) -> str:
@@ -43,11 +44,20 @@ class Product(Base):
     __table_args__ = (UniqueConstraint('quantity', 'url'),)
 
     id = Column(Integer, primary_key=True)
-    vendor = Column('vendor', String())
-    name = Column('name', String())
-    quantity = Column('quantity', Integer())
-    url = Column('url', String())
+
+    platform = Column(String())
+
+    name = Column(String())
+    brand = Column(String(), nullable=True, default=None)
+    vendor = Column(String(), nullable=True, default=None)
+    url = Column(String())
+
+    quantity = Column(Integer(), default=1)
+    reviews = Column(Integer, nullable=True, default=None)
+    ratings = Column(Float, nullable=True, default=None)
+
     created_on = Column(DateTime, default=datetime.datetime.utcnow)
+    updated_on = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.now)
 
     last_price = column_property(
         select([Price.price]).
@@ -56,6 +66,8 @@ class Product(Base):
         limit(1).  # NOTE: We have to always limit this as 1 to prevent `CardinalityViolation: more than one row returned by a subquery used as an expression`
         as_scalar()
     )
+
+    attributes = Column(JSON, default=dict)
 
     def __repr__(self) -> str:
         return f'Product({self.name}, vendor={self.vendor})'
