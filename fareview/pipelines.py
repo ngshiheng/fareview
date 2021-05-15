@@ -124,8 +124,7 @@ class NewProductPricePipeline:
             vendor=adapter.get('vendor'),
             url=adapter['url'],
             quantity=adapter['quantity'],
-            reviews=adapter.get('reviews'),
-            ratings=adapter.get('ratings'),
+            review_count=adapter.get('review_count'),
             price=adapter['price'].amount
         )
 

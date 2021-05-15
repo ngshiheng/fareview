@@ -53,8 +53,7 @@ class Product(Base):
     url = Column(String())
 
     quantity = Column(Integer(), default=1)
-    reviews = Column(Integer, nullable=True, default=None)
-    ratings = Column(Float, nullable=True, default=None)
+    review_count = Column(Integer, nullable=True, default=None)
 
     created_on = Column(DateTime, default=datetime.datetime.utcnow)
     updated_on = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.now)

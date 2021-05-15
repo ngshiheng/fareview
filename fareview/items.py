@@ -37,10 +37,7 @@ class FareviewItem(scrapy.Item):
         output_processor=TakeFirst(),
     )
 
-    reviews = scrapy.Field(
-        output_processor=TakeFirst(),
-    )
-    ratings = scrapy.Field(
+    review_count = scrapy.Field(
         output_processor=TakeFirst(),
     )
 
