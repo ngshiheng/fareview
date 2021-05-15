@@ -3,7 +3,6 @@ import os
 
 import scrapy
 from fareview.items import FareviewItem
-from fareview.utils import parser_name
 from scrapy.loader import ItemLoader
 from scrapy.utils.project import get_project_settings
 
@@ -14,7 +13,20 @@ settings = get_project_settings()
 
 class ShopeeSpider(scrapy.Spider):
     """
-    Spider to scrape beer data from shopee
+    Available Data from Shopee's API:
+    stock
+    sold
+    historical sold
+    view_count
+    brand
+    price
+
+    https://shopee.sg/api/v4/search/search_items?by=sales&keyword=carlsberg&limit=50&newest=50&order=desc&page_type=search&rating_filter=4&scenario=PAGE_GLOBAL_SEARCH&skip_autocorrect=1&version=2
+
+    Filtered by:
+    - Beer & Cider
+    - Rating >= 4
+    - Sorted by top sales
     """
     name = 'shopee'
     custom_settings = {
@@ -22,8 +34,8 @@ class ShopeeSpider(scrapy.Spider):
     }
 
     start_urls = [
-        f'https://shopee.sg/api/v4/search/search_items?by=sales&keyword=Beer%20%26%20Cider&limit=50&match_id=14255&newest={n}&order=desc&page_type=search&rating_filter=4&scenario=PAGE_SUB_CATEGORY_SEARCH&skip_autocorrect=1&version=2'
-        for n in range(0, 250, 50)
+        f'https://shopee.sg/api/v4/search/search_items?by=sales&categoryids=14260&keyword={keyword}&limit=50&match_id=14255&newest=0&order=desc&page_type=search&rating_filter=4&scenario=PAGE_SUB_CATEGORY_SEARCH&skip_autocorrect=1&version=2'
+        for keyword in ['tiger', 'Heineken', 'carlsberg', 'guinness', 'asahi']
     ]
 
     def parse(self, response):
@@ -37,16 +49,18 @@ class ShopeeSpider(scrapy.Spider):
             for item in items:
                 product = item['item_basic']
 
-                loader = ItemLoader(item=FareviewItem(), selector=product)
+                loader = ItemLoader(item=FareviewItem())
 
-                item_id = product['itemid']
-                shop_id = product['shopid']
-                price = str(product['price'] / 100000)  # Shopee price example: 4349000 = $43.49
-                quantity = parser_name(product['name'])
+                item_id = str(product['itemid'])
+                shop_id = str(product['shopid'])
 
-                loader.add_value('vendor', self.name)
+                loader.add_value('platform', self.name)
+
                 loader.add_value('name', product['name'])
-                loader.add_value('price', price)
-                loader.add_value('quantity', quantity)
+                loader.add_value('brand', product['brand'])
+                loader.add_value('vendor', shop_id)
                 loader.add_value('url', f'https://shopee.sg/--i.{shop_id}.{item_id}')
+                loader.add_value('quantity', product['name'])
+
+                loader.add_value('price', str(product['price'] / 100000))  # E.g.: '4349000' = '$43.49'
                 yield loader.load_item()
