@@ -105,7 +105,7 @@ EXTENSIONS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'fareview.pipelines.DuplicatePricePipeline': 300,
+    'fareview.pipelines.ExistingProductPricePipeline': 300,
     'fareview.pipelines.NewProductPricePipeline': 400,
 }
 

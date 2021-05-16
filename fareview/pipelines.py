@@ -12,16 +12,16 @@ from fareview.models import Price, Product, create_table, db_connect
 logger = logging.getLogger(__name__)
 
 
-class DuplicatePricePipeline:
+class ExistingProductPricePipeline:
     """
-    Check if a product already exist in pipeline and determine if it has price changes
+    Update existing products information
+    Create a new price for existing products if the new price differs from the existing price
 
     `url` and `quantity` is used to define the uniqueness of a product
     Using `url` alone isn't enough because the same URL (product) can have type of different `quantity`
     E.g.: "Pabst Blue Ribbon American Lager" can be of 'Single', '6 Packs' or 'Case of 24'
 
     Do not use `name` because name can change on a website
-    Remove the product from the pipeline if it does not have any price changes
     """
 
     def __init__(self) -> None:
@@ -33,6 +33,7 @@ class DuplicatePricePipeline:
         self.session = sessionmaker(bind=engine)
 
         self.prices = []
+        self.products_update = []
 
     def process_item(self, item: FareviewItem, spider: Spider) -> FareviewItem:
         assert spider
@@ -42,11 +43,7 @@ class DuplicatePricePipeline:
         quantity = adapter['quantity']
         price = adapter['price']
 
-        if price is not None:
-            current_price = float(price.amount)  # `.amount` is type of `<class 'decimal.Decimal'>`
-        else:
-            logger.warning(f'Item with <{url}> does not have a price.', extra=dict(url=url, quantity=quantity))
-            raise DropItem(f'Dropping item because item <{url}> does not have a price.')
+        new_price = float(price.amount)  # `.amount` is type of `<class 'decimal.Decimal'>`
 
         session = self.session()
         try:
@@ -60,15 +57,23 @@ class DuplicatePricePipeline:
             session.close()
 
         if existing_product is not None:
-            if existing_product.last_price == current_price:
-                raise DropItem(f'Dropping item because item <{url}> has no price change.')
-
-            price = dict(
-                price=current_price,
-                product_id=existing_product.id,
+            # Always update information for existing products
+            product = dict(
+                id=existing_product.id,
+                review_count=adapter.get('review_count'),
+                attributes=adapter.get('attributes'),
             )
-            self.prices.append(price)
-            raise DropItem(f'Dropping item <{url}> here after price update. We do not want duplicated products to be created in the following pipeline.')
+            self.products_update.append(product)
+
+            # Create new price object for the product
+            if existing_product.last_price != new_price:
+                price = dict(
+                    product_id=existing_product.id,
+                    price=new_price,
+                )
+                self.prices.append(price)
+
+            raise DropItem(f'Dropping item <{url}> here after update. We do not want duplicated products to be created in the following pipeline.')
 
         return item
 
@@ -80,10 +85,13 @@ class DuplicatePricePipeline:
         session = self.session()
 
         try:
+            session.bulk_update_mappings(Product, self.products_update)
+            logger.info(f'Updated information for {len(self.products_update)} existing products in bulk.')
+
             prices = {frozenset(price.items()): price for price in self.prices}.values()  # Remove duplicated dict in a list. Reference: https://www.geeksforgeeks.org/python-removing-duplicate-dicts-in-list/
             session.bulk_insert_mappings(Price, prices)
             session.commit()
-            logger.info(f'Saved {len(self.prices)} new prices for existing products to the database.')
+            logger.info(f'Created {len(self.prices)} new prices in bulk for existing products to the database.')
 
         except Exception as error:
             logger.exception(error, extra=dict(spider=spider))
@@ -120,11 +128,12 @@ class NewProductPricePipeline:
         product = dict(
             platform=adapter['platform'],
             name=adapter['name'],
-            brand=adapter.get('brand'),
+            brand=adapter['brand'],
             vendor=adapter.get('vendor'),
             url=adapter['url'],
             quantity=adapter['quantity'],
             review_count=adapter.get('review_count'),
+            attributes=adapter.get('attributes'),
             price=adapter['price'].amount
         )
 
@@ -144,15 +153,15 @@ class NewProductPricePipeline:
         session = self.session()
 
         try:
-            products = {frozenset(product.items()): product for product in self.products}.values()  # Remove duplicated dict in a list.
+            products = [product for i, product in enumerate(self.products) if product not in self.products[i + 1:]]
             session.bulk_insert_mappings(Product, products, return_defaults=True)  # Set `return_defaults=True` so that PK (inserted one at a time) value is available for FK usage at another table
 
             prices = [dict(price=product['price'], product_id=product['id']) for product in products]
             session.bulk_insert_mappings(Price, prices)
             session.commit()
 
-            logger.info(f'Saved {len(products)} new products in bulk operation to the database.')
-            logger.info(f'Saved {len(prices)} new prices in bulk operation to the database.')
+            logger.info(f'Created {len(products)} new products in bulk operation to the database.')
+            logger.info(f'Created {len(prices)} new prices in bulk operation to the database.')
 
         except Exception as error:
             logger.exception(error, extra=dict(spider=spider))
