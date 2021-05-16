@@ -5,8 +5,6 @@
 </p>
 <br />
 
-<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/2578_RC01/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"Tiger","geo":"SG","time":"today 12-m"},{"keyword":"Heineken","geo":"SG","time":"today 12-m"},{"keyword":"Carlsberg","geo":"SG","time":"today 12-m"},{"keyword":"Guinness","geo":"SG","time":"today 12-m"},{"keyword":"Asahi","geo":"SG","time":"today 12-m"}],"category":404,"property":""}, {"exploreQuery":"cat=404&geo=SG&q=Tiger,Heineken,Carlsberg,Guinness,Asahi&date=today 12-m,today 12-m,today 12-m,today 12-m,today 12-m","guestPath":"https://trends.google.com:443/trends/embed/"}); </script>
-
 ## Start Crawling
 
 ### Run single spider
