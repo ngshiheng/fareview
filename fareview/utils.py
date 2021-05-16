@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import Union
 from urllib.parse import urlencode
 
 from scrapy.utils.project import get_project_settings
@@ -22,10 +23,13 @@ def parse_name(raw_name: str) -> str:
     return remove_spaces.strip()
 
 
-def parse_quantity(raw_name: str) -> int:
+def parse_quantity(raw_name: Union[str, int]) -> int:
     """
     Get product quantity from name
     """
+    if isinstance(raw_name, int):
+        return raw_name
+
     # Blue Moon Belgian White Wheat Ale 355ml x 24 Bottles
     is_bottle = re.search(r'(\d{1,2}) ?Bottle', raw_name, flags=re.IGNORECASE)
     if is_bottle:
