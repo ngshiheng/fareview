@@ -22,6 +22,7 @@ class LazadaSpider(scrapy.Spider):
 
     It seems to be inevitable that Lazada API tends to return duplicated products
     When duplicated products have different review_count (review_count could be updated in between requests), our pipelines treat it as 2 unique products, which is not right
+    This issue was solved using `_unique_id` in pipelines.py
 
     E.g.: https://www.lazada.sg/products/asahi-dry-beer-can-350ml-pack-of-6-i301158171-s527196221.html?search=1
     """
@@ -69,6 +70,7 @@ class LazadaSpider(scrapy.Spider):
 
                 attributes = dict(
                     item_id=product.get('itemId'),
+                    shop_id=product.get('sellerId'),
                     sku_id=product.get('skuId'),
                     discount=product.get('discount'),
                     in_stock=product.get('inStock'),

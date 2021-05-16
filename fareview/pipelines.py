@@ -126,7 +126,11 @@ class NewProductPricePipeline:
         assert spider
         adapter = ItemAdapter(item)
 
+        # `_unique_id` is used to be hashed so that we can identify uniqueness of products using 3 main attributes: url, quantity, and brand.
+        _unique_id = str(adapter['brand'] + adapter['url'] + str(adapter['quantity']))
+
         product = dict(
+            _unique_id=hash(_unique_id),
             platform=adapter['platform'],
             name=adapter['name'],
             brand=adapter['brand'],
@@ -154,7 +158,11 @@ class NewProductPricePipeline:
         session = self.session()
 
         try:
-            products = [product for i, product in enumerate(self.products) if product not in self.products[i + 1:]]
+            products = {
+                product['_unique_id']: product
+                for product in self.products
+            }.values()
+
             session.bulk_insert_mappings(Product, products, return_defaults=True)  # Set `return_defaults=True` so that PK (inserted one at a time) value is available for FK usage at another table
 
             prices = [dict(price=product['price'], product_id=product['id']) for product in products]

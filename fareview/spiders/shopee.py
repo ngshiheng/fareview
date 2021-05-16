@@ -22,6 +22,7 @@ class ShopeeSpider(scrapy.Spider):
     There's a unique scenario where by a single shop/vendor (within the same url) are selling multiple products
     Because of this, our database model unique constraint with just quantity & url won't work anymore
     In this scenario, we made the change to our database model unique index to be brand + quantity + url
+    See `_unique_id` in pipelines.py
     """
     name = 'shopee'
     custom_settings = {
