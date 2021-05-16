@@ -11,6 +11,7 @@ sentry-sdk = "*"
 psycopg2-binary = "*"
 sqlalchemy = "*"
 price-parser = "*"
+colorlog = "*"
 
 [dev-packages]
 autopep8 = "*"
