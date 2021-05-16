@@ -39,6 +39,7 @@ class ExistingProductPricePipeline:
         assert spider
         adapter = ItemAdapter(item)
 
+        brand = adapter['brand']
         url = adapter['url']
         quantity = adapter['quantity']
         price = adapter['price']
@@ -47,10 +48,10 @@ class ExistingProductPricePipeline:
 
         session = self.session()
         try:
-            existing_product = session.query(Product).filter_by(url=url, quantity=quantity).one_or_none()
+            existing_product = session.query(Product).filter_by(brand=brand, url=url, quantity=quantity).one_or_none()
 
         except Exception as exception:
-            logger.exception('An unexpected error has occurred.', extra=dict(exception=exception, url=url, quantity=quantity))
+            logger.exception('An unexpected error has occurred.', extra=dict(exception=exception, brand=brand, url=url, quantity=quantity))
             raise DropItem(f'Dropping item because item <{url}> because of an unexpected error.') from exception
 
         finally:
@@ -86,9 +87,9 @@ class ExistingProductPricePipeline:
 
         try:
             session.bulk_update_mappings(Product, self.products_update)
-            logger.info(f'Updated information for {len(self.products_update)} existing products in bulk.')
+            logger.info(f'Updated {len(self.products_update)} existing products information in bulk.')
 
-            prices = {frozenset(price.items()): price for price in self.prices}.values()  # Remove duplicated dict in a list. Reference: https://www.geeksforgeeks.org/python-removing-duplicate-dicts-in-list/
+            prices = {frozenset(price.items()): price for price in self.prices}.values()  # Remove duplicated dict in a list. Only works if all values in dict are hashable. Reference: https://www.geeksforgeeks.org/python-removing-duplicate-dicts-in-list/
             session.bulk_insert_mappings(Price, prices)
             session.commit()
             logger.info(f'Created {len(self.prices)} new prices in bulk for existing products to the database.')
@@ -129,11 +130,11 @@ class NewProductPricePipeline:
             platform=adapter['platform'],
             name=adapter['name'],
             brand=adapter['brand'],
-            vendor=adapter.get('vendor'),
+            vendor=adapter['vendor'],
             url=adapter['url'],
             quantity=adapter['quantity'],
-            review_count=adapter.get('review_count'),
-            attributes=adapter.get('attributes'),
+            review_count=adapter['review_count'],
+            attributes=adapter['attributes'],
             price=adapter['price'].amount
         )
 

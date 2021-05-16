@@ -18,6 +18,10 @@ class ShopeeSpider(scrapy.Spider):
     - Beer & Cider
     - Rating >= 4
     - Sorted by top sales
+
+    There's a unique scenario where by a single shop/vendor (within the same url) are selling multiple products
+    Because of this, our database model unique constraint with just quantity & url won't work anymore
+    In this scenario, we made the change to our database model unique index to be brand + quantity + url
     """
     name = 'shopee'
     custom_settings = {

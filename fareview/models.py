@@ -41,7 +41,7 @@ class Price(Base):
 
 class Product(Base):
     __tablename__ = 'product'
-    __table_args__ = (UniqueConstraint('url', 'quantity', 'brand'),)
+    __table_args__ = (UniqueConstraint('brand', 'url', 'quantity'),)
 
     id = Column(Integer, primary_key=True)
 
@@ -54,6 +54,7 @@ class Product(Base):
 
     quantity = Column(Integer(), default=1)
     review_count = Column(Integer, nullable=True, default=None)
+    attributes = Column(JSON, default=dict)
 
     created_on = Column(DateTime, default=datetime.datetime.utcnow)
     updated_on = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.now)
@@ -65,8 +66,6 @@ class Product(Base):
         limit(1).  # NOTE: We have to always limit this as 1 to prevent `CardinalityViolation: more than one row returned by a subquery used as an expression`
         as_scalar()
     )
-
-    attributes = Column(JSON, default=dict)
 
     def __repr__(self) -> str:
         return f'Product({self.name}, vendor={self.vendor})'
