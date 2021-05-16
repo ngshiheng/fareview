@@ -42,6 +42,10 @@ class ShopeeSpider(scrapy.Spider):
 
                 loader = ItemLoader(item=FareviewItem())
 
+                review_count = product['item_rating']['rating_count'][0]
+                if review_count < 20:
+                    continue
+
                 item_id = str(product['itemid'])
                 shop_id = str(product['shopid'])
 
@@ -67,7 +71,7 @@ class ShopeeSpider(scrapy.Spider):
                 loader.add_value('url', f'https://shopee.sg/--i.{shop_id}.{item_id}')
 
                 loader.add_value('quantity', product['name'])
-                loader.add_value('review_count', product['item_rating']['rating_count'][0])
+                loader.add_value('review_count', review_count)
                 loader.add_value('attributes', attributes)
 
                 loader.add_value('price', str(product['price'] / 100000))  # E.g.: '4349000' = '$43.49'
