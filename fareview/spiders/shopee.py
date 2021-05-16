@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 
 import scrapy
 from fareview.items import FareviewItem
@@ -30,8 +31,8 @@ class ShopeeSpider(scrapy.Spider):
 
     def parse(self, response):
         logger.info(response.request.headers)
-        data = response.json()
 
+        data = response.json()
         items = data['items']
 
         # Stop sending requests when the REST API returns an empty array
@@ -44,15 +45,30 @@ class ShopeeSpider(scrapy.Spider):
                 item_id = str(product['itemid'])
                 shop_id = str(product['shopid'])
 
+                attributes = dict(
+                    item_id=item_id,
+                    shop_id=shop_id,
+                    stock=product.get('stock'),
+                    sold=product.get('sold'),
+                    historical_sold=product.get('historical_sold'),
+                    liked_count=product.get('liked_count'),
+                    view_count=product.get('view_count'),
+                    item_rating=product.get('item_rating'),
+                    shop_location=product.get('shop_location'),
+                )
+
+                brand = re.search(r'keyword=(\w+)&', response.request.url).group(1)
+
                 loader.add_value('platform', self.name)
 
                 loader.add_value('name', product['name'])
-                loader.add_value('brand', product['brand'])
+                loader.add_value('brand', brand)  # NOTE: Shopee's API product['brand'] does not guarantee that brand is always correct
                 loader.add_value('vendor', shop_id)
                 loader.add_value('url', f'https://shopee.sg/--i.{shop_id}.{item_id}')
 
                 loader.add_value('quantity', product['name'])
                 loader.add_value('review_count', product['item_rating']['rating_count'][0])
+                loader.add_value('attributes', attributes)
 
                 loader.add_value('price', str(product['price'] / 100000))  # E.g.: '4349000' = '$43.49'
                 yield loader.load_item()

@@ -41,7 +41,7 @@ class Price(Base):
 
 class Product(Base):
     __tablename__ = 'product'
-    __table_args__ = (UniqueConstraint('quantity', 'url'),)
+    __table_args__ = (UniqueConstraint('url', 'quantity', 'brand'),)
 
     id = Column(Integer, primary_key=True)
 

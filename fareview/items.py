@@ -41,6 +41,10 @@ class FareviewItem(scrapy.Item):
         output_processor=TakeFirst(),
     )
 
+    attributes = scrapy.Field(
+        output_processor=TakeFirst(),
+    )
+
     # Price
     price = scrapy.Field(
         input_processor=MapCompose(parse_price),
