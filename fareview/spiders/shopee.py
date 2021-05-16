@@ -35,6 +35,8 @@ class ShopeeSpider(scrapy.Spider):
         data = response.json()
         items = data['items']
 
+        brand = re.search(r'keyword=(\w+)&', response.request.url).group(1)
+
         # Stop sending requests when the REST API returns an empty array
         if items:
             for item in items:
@@ -52,6 +54,7 @@ class ShopeeSpider(scrapy.Spider):
                 attributes = dict(
                     item_id=item_id,
                     shop_id=shop_id,
+                    discount=product.get('discount'),
                     stock=product.get('stock'),
                     sold=product.get('sold'),
                     historical_sold=product.get('historical_sold'),
@@ -60,8 +63,6 @@ class ShopeeSpider(scrapy.Spider):
                     item_rating=product.get('item_rating'),
                     shop_location=product.get('shop_location'),
                 )
-
-                brand = re.search(r'keyword=(\w+)&', response.request.url).group(1)
 
                 loader.add_value('platform', self.name)
 
