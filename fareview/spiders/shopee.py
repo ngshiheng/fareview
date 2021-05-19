@@ -31,7 +31,7 @@ class ShopeeSpider(scrapy.Spider):
 
     start_urls = [
         f'https://shopee.sg/api/v4/search/search_items?by=sales&categoryids=14260&keyword={keyword}&limit=50&match_id=14255&newest=0&order=desc&page_type=search&rating_filter=4&scenario=PAGE_SUB_CATEGORY_SEARCH&skip_autocorrect=1&version=2'
-        for keyword in ['tiger', 'heineken', 'carlsberg', 'guinness', 'asahi']
+        for keyword in settings.get('SUPPORTED_BRANDS')
     ]
 
     def parse(self, response):

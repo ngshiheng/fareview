@@ -38,7 +38,7 @@ class Qoo10Spider(scrapy.Spider):
             return
 
         try:
-            brand = next(brand for brand in ['tiger', 'heineken', 'carlsberg', 'guinness', 'asahi'] if brand in name.lower())
+            brand = next(brand for brand in settings.get('SUPPORTED_BRANDS') if brand in name.lower())
 
         except StopIteration:
             return

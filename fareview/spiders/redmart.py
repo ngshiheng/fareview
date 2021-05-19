@@ -30,7 +30,7 @@ class RedMartSpider(scrapy.Spider):
 
     start_urls = [
         f'https://redmart.lazada.sg/shop-beer/{keyword}/?ajax=true&m=redmart&rating=4'
-        for keyword in ['tiger', 'heineken', 'carlsberg', 'guinness', 'asahi']
+        for keyword in settings.get('SUPPORTED_BRANDS')
     ]
 
     def _get_product_quantity(self, package_info: str) -> int:
