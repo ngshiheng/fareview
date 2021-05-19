@@ -32,6 +32,10 @@ class Qoo10Spider(scrapy.Spider):
         loader = ItemLoader(item=FareviewItem(), selector=response)
 
         name = response.xpath('//h2[@class="name"]/text()').get()
+        price = response.xpath('//strong[@class="prc"]/text()').get()
+
+        if price == 'Sold Out':
+            return
 
         try:
             brand = next(brand for brand in ['tiger', 'heineken', 'carlsberg', 'guinness', 'asahi'] if brand in name.lower())
@@ -39,7 +43,12 @@ class Qoo10Spider(scrapy.Spider):
         except StopIteration:
             return
 
-        attributes = dict()
+        raw_sold = response.xpath('//div[@class="goods-shopsatis__num"]/p/strong/text()').get()
+        sold = int(re.sub(r'[^0-9]', '', raw_sold))
+
+        attributes = dict(
+            sold=sold,
+        )
 
         loader.add_value('platform', self.name)
 
@@ -55,5 +64,5 @@ class Qoo10Spider(scrapy.Spider):
         loader.add_value('review_count', review_count)
         loader.add_value('attributes', attributes)
 
-        loader.add_xpath('price', '//strong[@id="qprice_span"]/text()')
+        loader.add_value('price', price)
         yield loader.load_item()
