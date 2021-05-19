@@ -35,6 +35,7 @@ scrapy.utils.log._get_handler = _get_handler_custom
 
 
 BOT_NAME = 'fareview'
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
 
 SPIDER_MODULES = ['fareview.spiders']
 NEWSPIDER_MODULE = 'fareview.spiders'
