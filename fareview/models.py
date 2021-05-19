@@ -57,7 +57,7 @@ class Product(Base):
     attributes = Column(JSON, default=dict)
 
     created_on = Column(DateTime, default=datetime.datetime.utcnow)
-    updated_on = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.now)
+    updated_on = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
     last_price = column_property(
         select([Price.price]).
