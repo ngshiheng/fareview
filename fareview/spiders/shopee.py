@@ -36,6 +36,7 @@ class ShopeeSpider(scrapy.Spider):
 
     def parse(self, response):
         logger.info(response.request.headers)
+        logger.info(response.ip_address)
 
         data = response.json()
         items = data['items']

@@ -43,11 +43,12 @@ class RedMartSpider(scrapy.Spider):
 
     def parse(self, response):
         logger.info(response.request.headers)
+        logger.info(response.ip_address)
 
         data = response.json()
 
         if 'rgv587_flag' in data:
-            error = f'Rate limited by Red Mart. URL <{response.request.url}>.'
+            error = f'Rate limited by Red Mart. URL <{response.request.url}>. IP <{response.ip_address}>.'
 
             retry_request = get_retry_request(response.request, reason=error, spider=self)
             if retry_request:

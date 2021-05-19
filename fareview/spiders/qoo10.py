@@ -25,6 +25,7 @@ class Qoo10Spider(scrapy.Spider):
 
     def parse(self, response):
         logger.info(response.request.headers)
+        logger.info(response.ip_address)
 
         product_urls = response.xpath('//a[@class="lnk_vw"]/@href').getall()
 
