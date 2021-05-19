@@ -35,6 +35,8 @@ scrapy.utils.log._get_handler = _get_handler_custom
 
 
 BOT_NAME = 'fareview'
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
+SUPPORTED_BRANDS = ['tiger', 'heineken', 'carlsberg', 'guinness', 'asahi']
 
 SPIDER_MODULES = ['fareview.spiders']
 NEWSPIDER_MODULE = 'fareview.spiders'

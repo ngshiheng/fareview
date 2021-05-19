@@ -38,10 +38,10 @@ class LazadaSpider(scrapy.Spider):
 
     start_urls = [
         get_proxy_url(f'https://www.lazada.sg/shop-beer/{keyword}/?ajax=true&rating=4')
-        for keyword in ['tiger', 'heineken', 'carlsberg', 'guinness', 'asahi']
+        for keyword in settings.get('SUPPORTED_BRANDS')
     ] + [
         get_proxy_url(f'https://www.lazada.sg/shop-beer/{keyword}/?ajax=true&page=2&rating=4')
-        for keyword in ['tiger', 'heineken', 'carlsberg', 'guinness', 'asahi']
+        for keyword in settings.get('SUPPORTED_BRANDS')
     ]
 
     def parse(self, response):
