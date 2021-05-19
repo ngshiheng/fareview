@@ -16,9 +16,6 @@ class Qoo10Spider(scrapy.Spider):
     name = 'qoo10'
     custom_settings = {
         'DOWNLOAD_DELAY': os.environ.get('QOO10_DOWNLOAD_DELAY', 5),
-        'DEFAULT_REQUEST_HEADERS': {
-            'giosis_srv_name': 'SGWWW-A-15',
-        }
     }
 
     start_urls = ['https://www.qoo10.sg/gmkt.inc/Category/DefaultAjaxAppend.aspx?p=1&s=rv&v=lt&ct=300001029&ack=&ac=&f=st:SG|ct:300001029|&t=gc&pm=&cc=N&cb=N&cst=N']
@@ -30,7 +27,7 @@ class Qoo10Spider(scrapy.Spider):
         product_urls = response.xpath('//a[@class="lnk_vw"]/@href').getall()
 
         for url in product_urls:
-            yield response.follow(url, callback=self.parse_product_details)
+            yield response.follow(url, cookies={'gmktCurrency': 'SGD'}, callback=self.parse_product_details)
 
     def parse_product_details(self, response):
         loader = ItemLoader(item=FareviewItem(), selector=response)
