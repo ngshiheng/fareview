@@ -39,7 +39,8 @@ class Qoo10Spider(scrapy.Spider):
             return
 
         try:
-            brand = next(brand for brand in settings.get('SUPPORTED_BRANDS') if brand in name.lower())
+            remove_brackets = re.sub(r'[\(\[].*?[\]\)]', '', name)
+            brand = next(brand for brand in settings.get('SUPPORTED_BRANDS') if brand in remove_brackets.lower())
 
         except StopIteration:
             return
