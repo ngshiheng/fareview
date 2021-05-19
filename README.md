@@ -1,15 +1,19 @@
 <h1 align="center"><strong>Fareview</strong></h1>
 
+<p align="center">
+  <img width="auto" height="auto" src="https://media.giphy.com/media/3o6MbtelsDZdsbFB7i/giphy.gif">
+</p>
+<br />
+
+# What is Fareview?
+
 ✔️ A simple & easy to use e-commerce price monitoring tool for vendors.
 
 🖥 Monitor product prices on top e-commerce platforms in Singapore.
 
 📈 Increase your sales and profit margins by uncovering your competitors' prices.
 
-<p align="center">
-  <img width="auto" height="auto" src="https://media.giphy.com/media/3o6MbtelsDZdsbFB7i/giphy.gif">
-</p>
-<br />
+# Project Usage Guide
 
 ## Start Crawling
 
