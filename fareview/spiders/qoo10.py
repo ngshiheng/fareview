@@ -32,7 +32,7 @@ class Qoo10Spider(scrapy.Spider):
         loader = ItemLoader(item=FareviewItem(), selector=response)
 
         name = response.xpath('//h2[@class="name"]/text()').get()
-        price = response.xpath('//strong[@class="prc"]/text()').get()
+        price = response.xpath('//strong[@id="qprice_span"]/text()').get()
 
         if price == 'Sold Out':
             return
