@@ -128,3 +128,54 @@ WHERE
 	RowID = 1
 LIMIT 20
 ```
+
+Get current and previous price in the same table
+
+```sql
+WITH CURRENT_PRICE (
+	product_id,
+	price
+) AS (
+	SELECT
+		product_id,
+		price
+	FROM (
+		SELECT
+			product_id,
+			price,
+			ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY price.updated_on DESC) AS rownum
+		FROM
+			price) t
+	WHERE
+		rownum = 1
+),
+PREVIOUS_PRICE (product_id,
+price
+) AS (
+SELECT
+	product_id,
+	price
+FROM (
+SELECT
+	product_id,
+	price,
+	ROW_NUMBER() OVER (PARTITION BY product_id ORDER BY price.updated_on DESC) AS rownum
+FROM
+	price) t
+WHERE
+	rownum = 2
+)
+SELECT
+	p.id, platform AS "Platform", vendor AS "Vendor", name AS "Product Name", curr.price AS "Now ($SGD)", prev.price AS "Before ($SGD)", round((curr.price - prev.price)::numeric, 2) AS "Change ($SGD)", review_count AS "Reviews", attributes -> 'sold' AS "Sold", attributes -> 'stock' AS "Stock", url AS "Product URL"
+FROM
+	product p
+	JOIN CURRENT_PRICE curr ON curr.product_id = p.id
+	JOIN PREVIOUS_PRICE prev ON prev.product_id = p.id
+		AND(prev.price <> curr.price)
+WHERE
+	p.quantity = 24
+	AND p.brand = 'carlsberg'
+ORDER BY
+	p.review_count DESC
+LIMIT 10
+```
