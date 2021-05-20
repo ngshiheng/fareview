@@ -69,9 +69,12 @@ class LazadaSpider(scrapy.Spider):
                 if int(review_count) < 5:
                     continue
 
+                item_id = product['itemId']
+                shop_id = product['sellerId']
+
                 attributes = dict(
-                    item_id=product.get('itemId'),
-                    shop_id=product.get('sellerId'),
+                    item_id=item_id,
+                    shop_id=shop_id,
                     sku_id=product.get('skuId'),
                     discount=product.get('discount'),
                     in_stock=product.get('inStock'),
@@ -84,7 +87,7 @@ class LazadaSpider(scrapy.Spider):
                 loader.add_value('name', product['name'])
                 loader.add_value('brand', product['brandName'].lower())
                 loader.add_value('vendor', product['sellerName'])
-                loader.add_value('url', 'https:' + product['productUrl'])
+                loader.add_value('url', f'https://www.lazada.sg/products/-i{item_id}-s{shop_id}.html')  # We could also use `productUrl` here
 
                 loader.add_value('quantity', product['name'])
                 loader.add_value('review_count', review_count)
