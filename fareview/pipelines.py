@@ -17,7 +17,7 @@ class ExistingProductPricePipeline:
     Update existing products information
     Create a new price for existing products if the new price differs from the existing price
 
-    `url` and `quantity` is used to define the uniqueness of a product
+    `brand`, `url` and `quantity` is used to define the uniqueness of a product
     Using `url` alone isn't enough because the same URL (product) can have type of different `quantity`
     E.g.: "Pabst Blue Ribbon American Lager" can be of 'Single', '6 Packs' or 'Case of 24'
 
@@ -39,6 +39,7 @@ class ExistingProductPricePipeline:
         assert spider
         adapter = ItemAdapter(item)
 
+        name = adapter['name']
         brand = adapter['brand']
         url = adapter['url']
         quantity = adapter['quantity']
@@ -59,12 +60,13 @@ class ExistingProductPricePipeline:
 
         if existing_product is not None:
             # Always update information for existing products
-            product = dict(
+            product_to_update = dict(
                 id=existing_product.id,
+                name=name,
                 review_count=adapter.get('review_count'),
                 attributes=adapter.get('attributes'),
             )
-            self.products_update.append(product)
+            self.products_update.append(product_to_update)
 
             # Create new price object for the product
             if existing_product.last_price != new_price:
@@ -138,7 +140,7 @@ class NewProductPricePipeline:
             url=adapter['url'],
             quantity=adapter['quantity'],
             review_count=adapter['review_count'],
-            attributes=adapter['attributes'],
+            attributes=adapter.get('attributes'),
             price=adapter['price'].amount
         )
 
