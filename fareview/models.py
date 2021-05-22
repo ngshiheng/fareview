@@ -53,6 +53,7 @@ class Product(Base):
     url = Column(String())
 
     quantity = Column(Integer(), default=1)
+    volume = Column(Integer(), nullable=True, default=None)
     review_count = Column(Integer, nullable=True, default=None)
     attributes = Column(JSON, default=dict)
 

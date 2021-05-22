@@ -63,6 +63,7 @@ class ExistingProductPricePipeline:
             product_to_update = dict(
                 id=existing_product.id,
                 name=name,
+                volume=adapter.get('volume'),
                 review_count=adapter.get('review_count'),
                 attributes=adapter.get('attributes'),
             )
@@ -139,7 +140,8 @@ class NewProductPricePipeline:
             vendor=adapter['vendor'],
             url=adapter['url'],
             quantity=adapter['quantity'],
-            review_count=adapter['review_count'],
+            volume=adapter.get('volume'),
+            review_count=adapter.get('review_count'),
             attributes=adapter.get('attributes'),
             price=adapter['price'].amount
         )

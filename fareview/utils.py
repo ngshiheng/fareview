@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import Union
+from typing import Optional, Union
 from urllib.parse import urlencode
 
 from scrapy.utils.project import get_project_settings
@@ -21,6 +21,15 @@ def parse_name(raw_name: str) -> str:
     remove_spaces = re.sub(' +', ' ', remove_non_word_characters)
 
     return remove_spaces.strip()
+
+
+def parse_volume(raw_name: str) -> Optional[int]:
+    """
+    Get product volume from name
+    """
+    has_volume = re.search(r'(\d+) ?ml', raw_name, re.IGNORECASE)
+    if has_volume:
+        return int(has_volume.group(1))
 
 
 def parse_quantity(raw_name: Union[str, int]) -> int:

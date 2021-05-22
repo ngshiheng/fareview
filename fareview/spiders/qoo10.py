@@ -63,6 +63,7 @@ class Qoo10Spider(scrapy.Spider):
         review_count = int(re.sub(r'[^0-9]', '', raw_review_count))
 
         loader.add_value('quantity', name)
+        loader.add_value('volume', name)
         loader.add_value('review_count', review_count)
         loader.add_value('attributes', attributes)
 

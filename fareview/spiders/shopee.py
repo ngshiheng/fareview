@@ -77,6 +77,7 @@ class ShopeeSpider(scrapy.Spider):
                 loader.add_value('url', f'https://shopee.sg/--i.{shop_id}.{item_id}')
 
                 loader.add_value('quantity', product['name'])
+                loader.add_value('volume', product['name'])
                 loader.add_value('review_count', review_count)
                 loader.add_value('attributes', attributes)
 

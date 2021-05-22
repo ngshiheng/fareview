@@ -2,7 +2,7 @@ import scrapy
 from itemloaders.processors import MapCompose, TakeFirst
 from price_parser.parser import parse_price
 
-from fareview.utils import parse_name, parse_quantity
+from fareview.utils import parse_name, parse_quantity, parse_volume
 
 
 class FareviewItem(scrapy.Item):
@@ -34,6 +34,11 @@ class FareviewItem(scrapy.Item):
 
     quantity = scrapy.Field(
         input_processor=MapCompose(parse_quantity),
+        output_processor=TakeFirst(),
+    )
+
+    volume = scrapy.Field(
+        input_processor=MapCompose(parse_volume),
         output_processor=TakeFirst(),
     )
 

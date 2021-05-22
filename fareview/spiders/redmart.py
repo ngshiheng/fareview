@@ -85,6 +85,7 @@ class RedMartSpider(scrapy.Spider):
                 loader.add_value('url', f'https://www.lazada.sg/products/-i{item_id}-s{shop_id}.html')  # We could also use `productUrl` here
 
                 loader.add_value('quantity', self._get_product_quantity(product['packageInfo']))
+                loader.add_value('volume', product['name'])
                 loader.add_value('review_count', review_count)
                 loader.add_value('attributes', attributes)
 
