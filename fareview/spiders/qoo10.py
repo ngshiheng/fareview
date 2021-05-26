@@ -13,6 +13,10 @@ settings = get_project_settings()
 
 
 class Qoo10Spider(scrapy.Spider):
+    """
+    Priority of getting price of product:
+    - Daily Deal -> Q-Price -> Retail Price
+    """
     name = 'qoo10'
     custom_settings = {
         'DOWNLOAD_DELAY': os.environ.get('QOO10_DOWNLOAD_DELAY', 5),
@@ -33,19 +37,20 @@ class Qoo10Spider(scrapy.Spider):
         loader = ItemLoader(item=FareviewItem(), selector=response)
 
         name = response.xpath('//h2[@class="name"]/text()').get()
-        price = response.xpath('//strong[@id="qprice_span"]/text()').get()
 
+        # Skip product if it's not in `SUPPORTED_BRANDS`
+        remove_brackets = re.sub(r'[\(\[].*?[\]\)]', '', name)
+        brand = next((brand for brand in settings['SUPPORTED_BRANDS'] if brand in remove_brackets.lower()), None)
+        if brand is None:
+            return
+
+        # Skip price if it's 'Sold Out'
+        raw_prices = response.xpath('//li[@id="ph_GoodsPriceInfoSection"]//*[contains(text(),"S$")]//text()')
+        price = raw_prices[-1].get() if raw_prices else response.xpath('//div[@class="prc"]//strong//text()').get()
         if price == 'Sold Out':
             return
 
-        try:
-            remove_brackets = re.sub(r'[\(\[].*?[\]\)]', '', name)
-            brand = next(brand for brand in settings.get('SUPPORTED_BRANDS') if brand in remove_brackets.lower())
-
-        except StopIteration:
-            return
-
-        raw_sold = response.xpath('//div[@class="goods-shopsatis__num"]/p/strong/text()').get()
+        raw_sold = response.xpath('//div[@class="goods-shopsatis__num"]/strong/text()').get()
         sold = int(re.sub(r'[^0-9]', '', raw_sold))
 
         attributes = dict(
@@ -56,7 +61,7 @@ class Qoo10Spider(scrapy.Spider):
 
         loader.add_value('name', name)
         loader.add_value('brand', brand)
-        loader.add_xpath('vendor', '//div[@class="goods-shopinfo"]//a/text()')
+        loader.add_xpath('vendor', '//a[@id="shop_link"]/@title')
         loader.add_value('url', response.request.url)
 
         raw_review_count = response.xpath('//em[@id="opinion_count"]/text()').get()
