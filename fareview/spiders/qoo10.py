@@ -51,7 +51,7 @@ class Qoo10Spider(scrapy.Spider):
             return
 
         raw_sold = response.xpath('//div[@class="goods-shopsatis__num"]/strong/text()').get()
-        sold = int(re.sub(r'[^0-9]', '', raw_sold))
+        sold = int(re.sub(r'[^0-9]', '', raw_sold)) if raw_sold else None
 
         attributes = dict(
             sold=sold,
