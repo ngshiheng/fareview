@@ -28,10 +28,8 @@ class Qoo10Spider(scrapy.Spider):
         logger.info(response.request.headers)
         logger.info(response.ip_address)
 
-        product_urls = response.xpath('//a[@class="lnk_vw"]/@href').getall()
-
-        for url in product_urls:
-            yield response.follow(url, cookies={'gmktCurrency': 'SGD'}, callback=self.parse_product_details)
+        product_urls = response.xpath('//a[@class="lnk_vw"]/@href')
+        yield from response.follow_all(product_urls, cookies={'gmktCurrency': 'SGD'}, callback=self.parse_product_details)
 
     def parse_product_details(self, response):
         loader = ItemLoader(item=FareviewItem(), selector=response)
