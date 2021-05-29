@@ -12,6 +12,7 @@ psycopg2-binary = "*"
 sqlalchemy = "*"
 price-parser = "*"
 colorlog = "*"
+python-telegram-bot = "*"
 
 [dev-packages]
 autopep8 = "*"
