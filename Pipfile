@@ -13,6 +13,7 @@ sqlalchemy = "*"
 price-parser = "*"
 colorlog = "*"
 python-telegram-bot = "*"
+sqlalchemy-utils = "*"
 
 [dev-packages]
 autopep8 = "*"

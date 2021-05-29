@@ -15,7 +15,7 @@ settings = get_project_settings()
 class Qoo10Spider(scrapy.Spider):
     """
     Priority of getting price of product:
-    - Daily Deal -> Q-Price -> Retail Price
+    Daily Deal -> Q-Price -> Retail Price
     """
     name = 'qoo10'
     custom_settings = {
