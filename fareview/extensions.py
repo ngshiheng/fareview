@@ -2,7 +2,9 @@ import logging
 
 import sentry_sdk
 from scrapy import signals
+from scrapy.crawler import Crawler
 from scrapy.exceptions import NotConfigured
+from scrapy.spiders import Spider
 from scrapy.utils.project import get_project_settings
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from telegram import Bot
@@ -42,16 +44,19 @@ class TelegramBot:
     Send price alerts via Telegram notification to users
     WIP
     """
-    TELEGRAM_API_TOKEN = settings.get('TELEGRAM_API_TOKEN')
 
-    def __init__(self):
-        self.bot = Bot(token=str(self.TELEGRAM_API_TOKEN))
+    def __init__(self) -> None:
+        telegram_api_token = settings.get('TELEGRAM_API_TOKEN')
+        if not telegram_api_token:
+            raise NotConfigured('TELEGRAM_API_TOKEN is not configured.')
+
+        self.bot = Bot(token=telegram_api_token)
 
     @classmethod
-    def from_crawler(cls, crawler):
+    def from_crawler(cls, crawler: Crawler) -> 'TelegramBot':
         telegram_enabled = crawler.settings.getbool('TELEGRAM_ENABLED')
         if not telegram_enabled:
-            raise NotConfigured('Telegram extension is disabled')
+            raise NotConfigured('Telegram extension is disabled.')
 
         extension = cls()
 
@@ -60,8 +65,11 @@ class TelegramBot:
 
         return extension
 
-    def spider_opened(self, spider) -> None:
+    def spider_opened(self, spider: Spider) -> None:
         logger.info(f'Spider opened: {spider.name}')
 
-    def spider_closed(self, spider) -> None:
+    def spider_closed(self, spider: Spider) -> None:
         logger.info(f'Spider closed: {spider.name}')
+
+        # TODO: Search through the entire user list and send out notifications
+        self.bot.send_message(chat_id='', text='')
