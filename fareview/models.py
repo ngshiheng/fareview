@@ -85,9 +85,10 @@ class User(Base):
 
     alert_settings = Column(JSON, default=dict)
 
-    membership_start_on = Column(DateTime)
+    membership_start_date = Column(DateTime)
+    membership_end_date = Column(DateTime)
 
-    last_active_on = Column(DateTime)
+    last_active_on = Column(DateTime, default=datetime.datetime.utcnow)
 
     created_on = Column(DateTime, default=datetime.datetime.utcnow)
     updated_on = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
