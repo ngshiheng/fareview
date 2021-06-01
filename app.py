@@ -49,7 +49,7 @@ def start(update: Update, _: CallbackContext) -> int:
 
         session.commit()
 
-        if user.email and user.membership_start_date and user.membership_start_date and datetime.utcnow() <= user.membership_end_date:
+        if user and user.email and user.membership_start_date and user.membership_start_date and datetime.utcnow() <= user.membership_end_date:
             update.message.reply_text(
                 'As an existing customer, you will now receive price alerts. 🚨\n'
             )
@@ -57,7 +57,7 @@ def start(update: Update, _: CallbackContext) -> int:
         else:
             update.message.reply_text(
                 'Please select the \'Email\' option to update your email address for verification. ✅\n'
-                'You will start receiving price alerts if you are a verified customer. 🚨'
+                'You will start receiving price alerts if you are a verified customer. 🚨\n'
                 'Type /start to update your account information. ⚙️',
                 reply_markup=markup,
             )
@@ -92,8 +92,9 @@ def confirm_user_info(update: Update, context: CallbackContext) -> int:
 
     update.message.reply_text(
         'Awesome! Just so you know, this is what you told me:'
-        f'{facts_to_str(user_data)}\n'
-        'You can always edit again before saving.',
+        f'{facts_to_str(user_data)}'
+        'You can always edit again before saving.'
+        'Do remember to click \'Save\' before leaving.',
         reply_markup=markup,
     )
 
