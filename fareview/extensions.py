@@ -1,5 +1,7 @@
 import logging
+from datetime import datetime
 
+import prettytable as pt
 import sentry_sdk
 from scrapy import signals
 from scrapy.crawler import Crawler
@@ -8,9 +10,10 @@ from scrapy.spiders import Spider
 from scrapy.utils.project import get_project_settings
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from sqlalchemy.orm import sessionmaker
-from telegram import Bot
+from telegram import Bot, ParseMode
 
 from fareview.models import User, db_connect
+from fareview.utils.bot import create_price_alert_summary
 
 logger = logging.getLogger(__name__)
 
@@ -44,8 +47,7 @@ class SentryLogging:
 
 class TelegramBot:
     """
-    Send price alerts via Telegram notification to users
-    WIP
+    Send price alerts via Telegram to users
     """
 
     def __init__(self) -> None:
@@ -76,14 +78,41 @@ class TelegramBot:
         logger.info(f'Spider opened: {spider.name}')
 
     def spider_closed(self, spider: Spider) -> None:
+        """
+        Sends a Telegram message to users according to their `alert_settings`
+        E.g. of `alert_settings`: ['asahi', 'tiger']
+        """
+        assert spider.name, 'Please provide a name for your spider according to it\'s platform name.'
+
         logger.info(f'Spider closed: {spider.name}')
+        logger.info('Sending price alerts users via Telegram.')
 
         session = self.session()
-        users = session.query(User).filter(User.membership_end_date.between(User.membership_start_date, User.membership_end_date)).all()
-        session.close()
+        try:
+            users = session.query(User).filter(
+                User.membership_end_date >= datetime.utcnow(),
+                User.alert_settings is not None,
+            ).all()
 
-        logger.info(f'Sending Telegram notifications to {len(users)} users.')
+        except Exception as error:
+            logger.exception(error)
+            raise
+
+        finally:
+            session.close()
+
+        summary = create_price_alert_summary(platform=spider.name)
 
         for user in users:
-            # TODO: Search through the entire user list and send out notifications
-            self.bot.send_message(chat_id=user.telegram_chat_id, text='Hi!')
+            for brand in user.alert_settings:
+                table = pt.PrettyTable(['Volume x Qty.', 'Price ($SGD)', 'Sold By'])
+
+                for info in summary[brand]:
+                    volume = info['volume']
+                    price = info['price']
+                    vendor = info['vendor']
+
+                    table.add_row([f'{volume}mL x 24', f'{price:.2f}', vendor])
+
+                text = f'Hey 🤩 Here are your price alerts for *{spider.name.title()}*\nBelow are the cheapest *{brand.title()}* Beers that I have found👇 \n\n```{table}```'
+                self.bot.send_message(chat_id=user.telegram_chat_id, text=text, parse_mode=ParseMode.MARKDOWN_V2)

@@ -11,18 +11,21 @@ logger = logging.getLogger(__name__)
 
 def facts_to_str(user_data: Dict[str, str]) -> str:
     """
-    Helper function for formatting the gathered user info.
+    Helper function for formatting the gathered user info
     """
     facts = [f'{key} - {value}' for key, value in user_data.items()]
     return "\n".join(facts).join(['\n', '\n'])
 
 
-def create_price_alert_summary(brands: Optional[List[str]] = None) -> Dict[str, List]:
+def create_price_alert_summary(platform: str, brands: Optional[List[str]] = None) -> Dict[str, List]:
+    """
+    Helper function for providing the cheapest beer by platform
+    The summary is then grouped by all available brands
+    """
     engine = db_connect()
     session = sessionmaker(bind=engine)()
 
-    # If user did not specify which brand alerts to receive, we shall send them everything
-    if not brands:
+    if not bool(brands):
         brands = [brand.brand for brand in session.query(Product.brand).distinct()]
 
     try:
@@ -31,6 +34,7 @@ def create_price_alert_summary(brands: Optional[List[str]] = None) -> Dict[str, 
             for distinct_volume in session.query(Product.volume).distinct():
                 product = session.query(Product).filter(
                     Product.updated_on >= datetime.utcnow() - timedelta(days=1),
+                    Product.platform == platform,
                     Product.brand == brand,
                     Product.quantity == 24,  # NOTE: We only care about products where their quantity is 24
                     Product.volume == distinct_volume.volume,
@@ -40,9 +44,10 @@ def create_price_alert_summary(brands: Optional[List[str]] = None) -> Dict[str, 
                     products.append(
                         {
                             'platform': product.platform,
-                            'vendor': product.vendor,
                             'name': product.name,
                             'brand': product.brand,
+                            'vendor': product.vendor,
+                            'url': product.url,
                             'volume': product.volume,
                             'price': product.last_price,
                         }

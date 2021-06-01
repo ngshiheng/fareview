@@ -83,10 +83,10 @@ class User(Base):
     last_name = Column(String())
     email = Column(EmailType)
 
-    alert_settings = Column(JSON, default=dict)
+    alert_settings = Column(JSON, nullable=True, default=None)
 
-    membership_start_date = Column(DateTime)
-    membership_end_date = Column(DateTime)
+    membership_start_date = Column(DateTime, default=datetime.datetime.utcnow)
+    membership_end_date = Column(DateTime, default=datetime.datetime.utcnow() + datetime.timedelta(days=30))
 
     last_active_on = Column(DateTime, default=datetime.datetime.utcnow)
 
