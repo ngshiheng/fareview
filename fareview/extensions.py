@@ -59,9 +59,6 @@ class TelegramBot:
 
         self.bot = Bot(token=telegram_api_token)
 
-    def _create_notification_payload(self) -> str:
-        return ''
-
     @classmethod
     def from_crawler(cls, crawler: Crawler) -> 'TelegramBot':
         telegram_enabled = crawler.settings.getbool('TELEGRAM_ENABLED')
@@ -83,9 +80,9 @@ class TelegramBot:
 
         session = self.session()
         users = session.query(User).filter(User.membership_end_date.between(User.membership_start_date, User.membership_end_date)).all()
+        session.close()
 
         logger.info(f'Sending Telegram notifications to {len(users)} users.')
-        session.close()
 
         for user in users:
             # TODO: Search through the entire user list and send out notifications
