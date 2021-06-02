@@ -1,5 +1,4 @@
 import logging
-import os
 from datetime import datetime
 
 from sqlalchemy.orm import sessionmaker
@@ -7,7 +6,7 @@ from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import CallbackContext, CommandHandler, ConversationHandler, Filters, MessageHandler, Updater
 
 from fareview.models import User, db_connect
-from fareview.settings import SUPPORTED_BRANDS
+from fareview.settings import SUPPORTED_BRANDS, TELEGRAM_API_TOKEN
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -131,16 +130,16 @@ def save(update: Update, context: CallbackContext) -> int:
 
     if not bool(user_data):
         update.message.reply_text(
-            'You have not made any changes. Until next time! ✌\n'
-            '🤖 Type /start to talk to me again.',
+            'You have not made any changes. \n'
+            'Type /start to talk to me again. Until next time! ✌',
             reply_markup=ReplyKeyboardRemove(),
         )
         return ConversationHandler.END
 
     else:
         update.message.reply_text(
-            'Updated. 🙏\n'
-            '🤖 Type /start to talk to me again.',
+            'Email saved. 🙏\n'
+            'Type /start to talk to me again. Until next time! ✌',
             reply_markup=ReplyKeyboardRemove(),
         )
 
@@ -165,7 +164,8 @@ def save(update: Update, context: CallbackContext) -> int:
 def main() -> None:
     """Run the bot."""
     # Create the Updater and pass it your bot's token.
-    updater = Updater(os.environ.get('TELEGRAM_API_TOKEN'))
+    assert TELEGRAM_API_TOKEN, 'TELEGRAM_API_TOKEN is not configured.'
+    updater = Updater(TELEGRAM_API_TOKEN)
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
@@ -199,7 +199,12 @@ def main() -> None:
     dispatcher.add_handler(conversation_handler)
 
     # Start the Bot
-    updater.start_polling()
+    updater.start_webhook(
+        listen='0.0.0.0',
+        port=5000,
+        url_path=TELEGRAM_API_TOKEN,
+        webhook_url='https://fareview.herokuapp.com/' + TELEGRAM_API_TOKEN
+    )
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT, SIGTERM or SIGABRT
     # This should be used most of the time, since start_polling() is non-blocking and will stop the bot gracefully
