@@ -21,7 +21,7 @@ CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
 
 reply_keyboard = [
     ['Email'],
-    ['Save'],
+    ['Done'],
 ]
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
 
@@ -114,7 +114,7 @@ def confirm_user_info(update: Update, context: CallbackContext) -> int:
     update.message.reply_text(
         f'Got it! Just to confirm, your email address is {email}.\n'
         'You can always tap on \'Email\' to edit again before saving.\n'
-        'Tap \'Save\' to confirm.',
+        'Tap \'Done\' to save.',
         reply_markup=markup,
     )
 
@@ -182,18 +182,18 @@ def main() -> None:
             ],
             TYPING_CHOICE: [
                 MessageHandler(
-                    Filters.text & ~(Filters.command | Filters.regex('^Save$')),
+                    Filters.text & ~(Filters.command | Filters.regex('^Done$')),
                     update_user_info
                 )
             ],
             TYPING_REPLY: [
                 MessageHandler(
-                    Filters.text & ~(Filters.command | Filters.regex('^Save$')),
+                    Filters.text & ~(Filters.command | Filters.regex('^Done$')),
                     confirm_user_info,
                 )
             ],
         },
-        fallbacks=[MessageHandler(Filters.regex('^Save$'), save)],
+        fallbacks=[MessageHandler(Filters.regex('^Done$'), save)],
     )
 
     dispatcher.add_handler(conversation_handler)

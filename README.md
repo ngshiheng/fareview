@@ -51,6 +51,16 @@ scrapy list | xargs -n 1 -P 0 scrapy crawl
 export SCRAPER_API_KEY="YOUR_SCRAPER_API_KEY"
 ```
 
+## Telegram Bot
+
+```sh
+# Start ngrok
+ngrok http 8443
+
+# Change your webhook_url to `https://f4a7bcaf1c23.ngrok.io`, then start app.py
+pipenv run python3 app.py
+```
+
 ## Useful Scrapy Tools and Libraries
 
 https://github.com/croqaz/awesome-scrapy
