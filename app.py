@@ -1,4 +1,5 @@
 import logging
+import os
 from datetime import datetime
 
 import sentry_sdk
@@ -208,15 +209,15 @@ def main() -> None:
     dispatcher.add_handler(conversation_handler)
 
     # Start the Bot
+    PORT = int(os.environ.get('PORT', '8443'))
     updater.start_webhook(
         listen='0.0.0.0',
-        port=8443,
+        port=PORT,
         url_path=TELEGRAM_API_TOKEN,
         webhook_url='https://fareview.herokuapp.com/' + TELEGRAM_API_TOKEN,
     )
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT, SIGTERM or SIGABRT
-    # This should be used most of the time, since start_polling() is non-blocking and will stop the bot gracefully
     updater.idle()
 
 
