@@ -152,5 +152,5 @@ DATABASE_CONNECTION_STRING = '{drivername}://{user}:{password}@{host}:{port}/{db
 
 # Telegram
 # https://github.com/python-telegram-bot/python-telegram-bot
-TELEGRAM_ENABLED = os.environ.get('TELEGRAM_ENABLED', False)
+TELEGRAM_ENABLED = os.environ.get('TELEGRAM_ENABLED', True)
 TELEGRAM_API_TOKEN = os.environ.get('TELEGRAM_API_TOKEN')

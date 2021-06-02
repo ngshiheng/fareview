@@ -7,7 +7,7 @@ from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import CallbackContext, CommandHandler, ConversationHandler, Filters, MessageHandler, Updater
 
 from fareview.models import User, db_connect
-from fareview.utils.bot import facts_to_str
+from fareview.settings import SUPPORTED_BRANDS
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -28,40 +28,56 @@ markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
 
 
 def start(update: Update, _: CallbackContext) -> int:
-    """Start the conversation and ask user for input."""
+    """
+    Start the conversation and ask user for input.
+    """
     result = ConversationHandler.END
-    update.message.reply_text('Hi! 👋 My name is FareviewBot. Welcome aboard! 🎉')
+    update.message.reply_text('Hi! 👋 My name is FareviewBot. 🎉 Welcome aboard!\n')
     user_info = update.message.from_user
-    logger.info(f'User with user_info <{user_info}> just started conversation with the bot.')
+    logger.info(f'User with user_info={user_info} just started conversation with the bot.')
 
     try:
         user = session.query(User).filter_by(telegram_chat_id=user_info.id).one_or_none()
         if not user:
+            logger.info('User not found, creating a new user account for user.')
             new_user = User(
                 telegram_chat_id=user_info.id,
                 first_name=user_info.first_name,
                 last_name=user_info.last_name,
+                alert_settings=SUPPORTED_BRANDS,
             )
             session.add(new_user)
 
-        else:
-            user.last_active_on = datetime.utcnow()
-
-        session.commit()
-
-        if user and user.email and user.membership_start_date and user.membership_start_date and datetime.utcnow() <= user.membership_end_date:
             update.message.reply_text(
-                'As an existing customer, you will now receive price alerts. 🚨\n'
-            )
-
-        else:
-            update.message.reply_text(
-                'Please select the \'Email\' option to update your email address for verification. ✅\n'
-                'You will start receiving price alerts if you are a verified customer. 🚨\n'
-                'Type /start to update your account information. ⚙️',
+                '🎁 As welcome gift from us, you are given 30 days of free trial!\n'
+                '🚨 You will now receive price alerts on a daily basis.\n'
+                '👇 Please tap on the \'Email\' option to verify your email address.\n',
                 reply_markup=markup,
             )
+
+        else:
+            logger.info('User found, check if user has a valid membership.')
+            user.last_active_on = datetime.utcnow()
+            if user.membership_end_date >= datetime.utcnow():
+                time_left = user.membership_end_date - datetime.utcnow()
+
+                update.message.reply_text(
+                    '🚨 You will now receive price alerts on a daily basis. \n'
+                    f'💡 Do note that your current subscription ends in {time_left.days + 1} days. \n'
+                    '👇 To update your email, please tap on the \'Email\' option.\n',
+                    reply_markup=markup,
+                )
+
+            else:
+                update.message.reply_text(
+                    '😪 You will stop receiving any price alerts now.\n'
+                    '📨 If you would love to continue receiving price alerts, please contact us at infofareview@gmail.com!\n'
+                    '👇 To update your email, please tap on the \'Email\' option.\n',
+                    reply_markup=markup,
+                )
+
             result = CHOOSING
+        session.commit()
 
     except Exception as error:
         logger.exception(error)
@@ -75,7 +91,9 @@ def start(update: Update, _: CallbackContext) -> int:
 
 
 def update_user_info(update: Update, context: CallbackContext) -> int:
-    """Ask the user for info about the selected predefined choice."""
+    """
+    Ask the user for info about the selected predefined choice
+    """
     text = update.message.text
     context.user_data['choice'] = text
     update.message.reply_text('Cool! What is your email address?')
@@ -84,17 +102,20 @@ def update_user_info(update: Update, context: CallbackContext) -> int:
 
 
 def confirm_user_info(update: Update, context: CallbackContext) -> int:
-    """Store info provided by user and ask for the next category."""
+    """
+    Store info provided by user and ask for the next category
+    """
     user_data = context.user_data
     text = update.message.text
     category = user_data['choice'].lower()
     user_data[category] = text
 
+    email = user_data['email']
+
     update.message.reply_text(
-        'Awesome! Just so you know, this is what you told me:'
-        f'{facts_to_str(user_data)}'
-        'You can always edit again before saving.'
-        'Do remember to click \'Save\' before leaving.',
+        f'Got it! Just to confirm, your email address is {email}.\n'
+        'You can always tap on \'Email\' to edit again before saving.\n'
+        'Tap \'Save\' to confirm.',
         reply_markup=markup,
     )
 
@@ -102,37 +123,33 @@ def confirm_user_info(update: Update, context: CallbackContext) -> int:
 
 
 def save(update: Update, context: CallbackContext) -> int:
-    """Display the gathered info and end the conversation."""
+    """
+    Display the gathered info and end the conversation
+    """
     user_info = update.message.from_user
     user_data = context.user_data
 
     if not bool(user_data):
         update.message.reply_text(
-            'You have not made any changes. Until next time!\n'
-            'Type /start to update your information.',
+            'You have not made any changes. Until next time! ✌\n'
+            '🤖 Type /start to talk to me again.',
             reply_markup=ReplyKeyboardRemove(),
         )
         return ConversationHandler.END
 
     else:
         update.message.reply_text(
-            f'Here are your most recent saved settings: {facts_to_str(user_data)}'
-            'Talk to you soon!',
+            'Updated. 🙏\n'
+            '🤖 Type /start to talk to me again.',
             reply_markup=ReplyKeyboardRemove(),
         )
 
     try:
-        user = session.query(User).filter_by(email=user_data['email']).one_or_none()
+        user = session.query(User).filter_by(telegram_chat_id=user_info.id).one_or_none()
         if user:
             # Update user's `telegram_chat_id`
-            user.telegram_chat_id = user_info.id
+            user.email = user_data['email']
             session.commit()
-
-        else:
-            update.message.reply_text(
-                'My apologies, we could not find any information about your account.\n'
-                'Please contact inforfareview@gmail.com for help.'
-            )
 
     except Exception as error:
         logger.exception(error)
@@ -184,8 +201,8 @@ def main() -> None:
     # Start the Bot
     updater.start_polling()
 
-    # Run the bot until you press Ctrl-C or the process receives SIGINT, SIGTERM or SIGABRT.
-    # This should be used most of the time, since start_polling() is non-blocking and will stop the bot gracefully.
+    # Run the bot until you press Ctrl-C or the process receives SIGINT, SIGTERM or SIGABRT
+    # This should be used most of the time, since start_polling() is non-blocking and will stop the bot gracefully
     updater.idle()
 
 

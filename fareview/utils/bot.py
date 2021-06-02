@@ -9,14 +9,6 @@ from sqlalchemy.orm import sessionmaker
 logger = logging.getLogger(__name__)
 
 
-def facts_to_str(user_data: Dict[str, str]) -> str:
-    """
-    Helper function for formatting the gathered user info
-    """
-    facts = [f'{key} - {value}' for key, value in user_data.items()]
-    return "\n".join(facts).join(['\n', '\n'])
-
-
 def create_price_alert_summary(platform: str, brands: Optional[List[str]] = None) -> Dict[str, List]:
     """
     Helper function for providing the cheapest beer by platform
