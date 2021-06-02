@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+import sentry_sdk
 from sqlalchemy.orm import sessionmaker
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import CallbackContext, CommandHandler, ConversationHandler, Filters, MessageHandler, Updater
@@ -24,6 +25,13 @@ reply_keyboard = [
     ['Done'],
 ]
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
+
+
+def error(update: Update, context: CallbackContext) -> None:
+    """
+    Log Errors caused by Updates.
+    """
+    sentry_sdk.capture_message(str(context.error), 'exception')
 
 
 def start(update: Update, _: CallbackContext) -> int:
@@ -196,6 +204,7 @@ def main() -> None:
         fallbacks=[MessageHandler(Filters.regex('^Done$'), save)],
     )
 
+    dispatcher.add_error_handler(error)
     dispatcher.add_handler(conversation_handler)
 
     # Start the Bot
