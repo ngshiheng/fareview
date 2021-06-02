@@ -102,6 +102,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
     'fareview.extensions.SentryLogging': -1,
+    'fareview.extensions.TelegramBot': 500,
 }
 
 # Configure item pipelines
@@ -135,6 +136,7 @@ HTTPCACHE_EXPIRATION_SECS = os.environ.get('HTTPCACHE_EXPIRATION_SECS', 0)
 
 # Sentry
 # https://stackoverflow.com/questions/25262765/handle-all-exception-in-scrapy-with-sentry
+SENTRY_ENABLED = os.environ.get('SENTRY_ENABLED', True)
 SENTRY_DSN = 'https://b850f4b1253f4e98901c6cad3d8b6607@o545253.ingest.sentry.io/5766355'
 
 # PostgreSQL
@@ -146,3 +148,9 @@ DATABASE_CONNECTION_STRING = '{drivername}://{user}:{password}@{host}:{port}/{db
     port=os.environ.get('PG_PORT', '5432'),
     db_name=os.environ.get('PG_DATABASE', 'fareview'),
 )
+
+
+# Telegram
+# https://github.com/python-telegram-bot/python-telegram-bot
+TELEGRAM_ENABLED = os.environ.get('TELEGRAM_ENABLED', True)
+TELEGRAM_API_TOKEN = os.environ.get('TELEGRAM_API_TOKEN')

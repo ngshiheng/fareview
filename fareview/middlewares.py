@@ -1,4 +1,9 @@
+from typing import Iterator, List
+
 from scrapy import signals
+from scrapy.crawler import Crawler
+from scrapy.http.request import Request
+from scrapy.spiders import Spider
 from twisted.internet import reactor
 from twisted.internet.defer import Deferred
 
@@ -9,20 +14,20 @@ class FareviewSpiderMiddleware:
     # passed objects.
 
     @classmethod
-    def from_crawler(cls, crawler):
+    def from_crawler(cls, crawler: Crawler) -> 'FareviewSpiderMiddleware':
         # This method is used by Scrapy to create your spiders.
         s = cls()
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
 
-    def process_spider_input(self, response, spider):
+    def process_spider_input(self, response, spider: Spider) -> None:
         # Called for each response that goes through the spider
         # middleware and into the spider.
 
         # Should return None or raise an exception.
         return None
 
-    def process_spider_output(self, response, result, spider):
+    def process_spider_output(self, response, result, spider: Spider) -> Iterator[Request]:
         # Called with the results returned from the Spider, after
         # it has processed the response.
 
@@ -30,14 +35,14 @@ class FareviewSpiderMiddleware:
         for i in result:
             yield i
 
-    def process_spider_exception(self, response, exception, spider):
+    def process_spider_exception(self, response, exception: Exception, spider: Spider) -> None:
         # Called when a spider or process_spider_input() method
         # (from other spider middleware) raises an exception.
 
         # Should return either None or an iterable of Request or item objects.
         pass
 
-    def process_start_requests(self, start_requests, spider):
+    def process_start_requests(self, start_requests: List[str], spider: Spider) -> Iterator[str]:
         # Called with the start requests of the spider, and works
         # similarly to the process_spider_output() method, except
         # that it doesn’t have a response associated.
@@ -46,8 +51,8 @@ class FareviewSpiderMiddleware:
         for r in start_requests:
             yield r
 
-    def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)
+    def spider_opened(self, spider: Spider) -> None:
+        spider.logger.info(f'Spider opened: {spider.name}')
 
 
 class FareviewDownloaderMiddleware:
@@ -62,7 +67,7 @@ class FareviewDownloaderMiddleware:
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
 
-    def process_request(self, request, spider):
+    def process_request(self, request: Request, spider: Spider) -> None:
         # Called for each request that goes through the downloader
         # middleware.
 
@@ -74,7 +79,7 @@ class FareviewDownloaderMiddleware:
         #   installed downloader middleware will be called
         return None
 
-    def process_response(self, request, response, spider):
+    def process_response(self, request: Request, response, spider: Spider) -> None:
         # Called with the response returned from the downloader.
 
         # Must either;
@@ -83,7 +88,7 @@ class FareviewDownloaderMiddleware:
         # - or raise IgnoreRequest
         return response
 
-    def process_exception(self, request, exception, spider):
+    def process_exception(self, request: Request, exception: Exception, spider: Spider) -> None:
         # Called when a download handler or a process_request()
         # (from other downloader middleware) raises an exception.
 
@@ -93,8 +98,8 @@ class FareviewDownloaderMiddleware:
         # - return a Request object: stops process_exception() chain
         pass
 
-    def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)
+    def spider_opened(self, spider: Spider) -> None:
+        spider.logger.info(f'Spider opened: {spider.name}')
 
 
 class DelayedRequestsMiddleware(object):
@@ -105,7 +110,7 @@ class DelayedRequestsMiddleware(object):
     Reference: https://stackoverflow.com/questions/19135875/add-a-delay-to-a-specific-scrapy-request/64903556#64903556
     """
 
-    def process_request(self, request, spider):
+    def process_request(self, request: Request, spider: Spider) -> Deferred:
         delay_s = request.meta.get('delay_request_by', 5)
         spider.logger.info(f'Delay request for {delay_s} seconds...')
 

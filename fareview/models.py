@@ -7,6 +7,7 @@ from sqlalchemy.orm import column_property, relationship
 from sqlalchemy.sql.expression import select
 from sqlalchemy.sql.schema import UniqueConstraint
 from sqlalchemy.sql.sqltypes import JSON
+from sqlalchemy_utils.types import EmailType
 
 settings = get_project_settings()
 
@@ -70,3 +71,27 @@ class Product(Base):
 
     def __repr__(self) -> str:
         return f'Product({self.name}, vendor={self.vendor})'
+
+
+class User(Base):
+    __tablename__ = 'user'
+
+    id = Column(Integer, primary_key=True)
+    telegram_chat_id = Column(Integer(), index=True, unique=True)
+
+    first_name = Column(String())
+    last_name = Column(String())
+    email = Column(EmailType)
+
+    alert_settings = Column(JSON, nullable=True, default=None)
+
+    membership_start_date = Column(DateTime, default=datetime.datetime.utcnow)
+    membership_end_date = Column(DateTime, default=datetime.datetime.utcnow() + datetime.timedelta(days=30))
+
+    last_active_on = Column(DateTime, default=datetime.datetime.utcnow)
+
+    created_on = Column(DateTime, default=datetime.datetime.utcnow)
+    updated_on = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f'User({self.email})'

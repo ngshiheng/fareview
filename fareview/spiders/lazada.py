@@ -3,7 +3,7 @@ import os
 
 import scrapy
 from fareview.items import FareviewItem
-from fareview.utils import get_proxy_url
+from fareview.utils.scraperapi import get_proxy_url
 from scrapy.downloadermiddlewares.retry import get_retry_request
 from scrapy.loader import ItemLoader
 from scrapy.utils.project import get_project_settings
