@@ -106,7 +106,7 @@ class TelegramBot:
             for brand in user.alert_settings:
                 text_array = [
                     f'Hey {user.first_name}! 🤩 Here are your price alerts for *{brand.title()}*.',
-                    f'Below are the cheapest items I have found on *{spider.name.title()}*.👇\n'
+                    f'Below are the cheapest items that I have found on *https://{spider.name.lower()}.sg* 👇\n'
                 ]
 
                 for info in summary[brand]:
@@ -114,7 +114,7 @@ class TelegramBot:
                     price = info['price']
                     url = info['url']
 
-                    text_array.append(f'• _{volume}mL x 24_┃*${price:.2f}*┃[👉 Link]({url})')
+                    text_array.append(f'• _{volume}mL x 24_┃*${price:.2f}*┃[👉 Item Link]({url})')
 
                 text = '\n'.join(text_array)
                 self.bot.send_message(
