@@ -14,7 +14,6 @@ price-parser = "*"
 colorlog = "*"
 python-telegram-bot = "*"
 sqlalchemy-utils = "*"
-prettytable = "*"
 
 [dev-packages]
 autopep8 = "*"

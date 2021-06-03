@@ -209,7 +209,7 @@ def main() -> None:
     dispatcher.add_handler(conversation_handler)
 
     # Start the Bot
-    PORT = int(os.environ.get('PORT', '8443'))
+    PORT = int(os.environ.get('PORT', '8443'))  # NOTE: Heroku you need to bind the port assigned to you dynamically (using the $PORT)
     updater.start_webhook(
         listen='0.0.0.0',
         port=PORT,

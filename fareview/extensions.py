@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
 
-import prettytable as pt
 import sentry_sdk
 from scrapy import signals
 from scrapy.crawler import Crawler
@@ -82,7 +81,7 @@ class TelegramBot:
         Sends a Telegram message to users according to their `alert_settings`
         E.g. of `alert_settings`: ['asahi', 'tiger']
         """
-        assert spider.name, 'Please provide a name for your spider according to it\'s platform name.'
+        assert spider.name, 'Please provide a name for your spider according to the platform name that it\'s targetting.'
 
         logger.info(f'Spider closed: {spider.name}')
         logger.info('Sending price alerts users via Telegram.')
@@ -105,14 +104,22 @@ class TelegramBot:
 
         for user in users:
             for brand in user.alert_settings:
-                table = pt.PrettyTable(['Volume x Qty.', 'Price ($SGD)', 'Sold By'])
+                text_array = [
+                    f'Hey {user.first_name}! 🤩 Here are your price alerts for *{brand.title()}*.',
+                    f'Below are the cheapest items I have found on *{spider.name.title()}*.👇\n'
+                ]
 
                 for info in summary[brand]:
                     volume = info['volume']
                     price = info['price']
-                    vendor = info['vendor']
+                    url = info['url']
 
-                    table.add_row([f'{volume}mL x 24', f'{price:.2f}', vendor])
+                    text_array.append(f'• _{volume}mL x 24_┃*${price:.2f}*┃[👉 Link]({url})')
 
-                text = f'Hey 🤩 Here are your price alerts for *{spider.name.title()}*\nBelow are the cheapest *{brand.title()}* Beers that I have found👇 \n\n```{table}```'
-                self.bot.send_message(chat_id=user.telegram_chat_id, text=text, parse_mode=ParseMode.MARKDOWN_V2)
+                text = '\n'.join(text_array)
+                self.bot.send_message(
+                    chat_id=user.telegram_chat_id,
+                    text=text,
+                    parse_mode=ParseMode.MARKDOWN,
+                    disable_web_page_preview=True,
+                )
