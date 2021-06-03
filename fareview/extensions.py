@@ -104,9 +104,12 @@ class TelegramBot:
 
         for user in users:
             for brand in user.alert_settings:
+                if not summary[brand]:  # Handle case where the summary from a platform does not have any product prices
+                    continue
+
                 text_array = [
                     f'Hey {user.first_name}! 🤩 Here are your price alerts for *{brand.title()}*.',
-                    f'Below are the cheapest items that I have found on *https://{spider.name.lower()}.sg* 👇\n'
+                    f'Below are the cheapest items that I have found on *https://{spider.name.lower()}.com* 👇\n'
                 ]
 
                 for info in summary[brand]:
