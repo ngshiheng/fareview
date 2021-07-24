@@ -35,6 +35,9 @@ class Qoo10Spider(scrapy.Spider):
         loader = ItemLoader(item=FareviewItem(), selector=response)
 
         name = response.xpath('//h2[@class="name"]/text()').get()
+        if not name:
+            logger.debug('Name is None')
+            return
 
         # Skip product if it's not in `SUPPORTED_BRANDS`
         remove_brackets = re.sub(r'[\(\[].*?[\]\)]', '', name)
