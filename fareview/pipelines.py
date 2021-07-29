@@ -46,10 +46,17 @@ class ExistingProductPricePipeline:
 
         new_price = float(price.amount)  # `.amount` is type of `<class 'decimal.Decimal'>`
 
-        Session = sessionmaker(bind=self.engine)
-
-        with Session.begin() as session:
+        db_session = sessionmaker(bind=self.engine)
+        session = db_session()
+        try:
             existing_product = session.query(Product).filter_by(brand=brand, url=url, quantity=quantity).one_or_none()
+
+        except Exception as exception:
+            logger.exception('An unexpected error has occurred.', extra=dict(exception=exception, brand=brand, url=url, quantity=quantity))
+            raise DropItem(f'Dropping item because item <{url}> because of an unexpected error.') from exception
+
+        finally:
+            session.close()
 
         if existing_product is not None:
             # Always update information for existing products
@@ -79,9 +86,10 @@ class ExistingProductPricePipeline:
         Saving all the scraped products and prices in bulk on spider close event
         We use `bulk_insert_mappings` instead of `bulk_save_objects` here as it accepts lists of plain Python dictionaries which results in less amount of overhead associated with instantiating mapped objects and assigning state to them, they are faster
         """
-        Session = sessionmaker(bind=self.engine)
+        assert spider
 
-        with Session.begin() as session:
+        db_session = sessionmaker(bind=self.engine)
+        with db_session.begin() as session:
             session.bulk_update_mappings(Product, self.products_update)
             logger.info(f'Updated {len(self.products_update)} existing products information in bulk.')
 
@@ -143,9 +151,10 @@ class NewProductPricePipeline:
 
         Reference: https://stackoverflow.com/questions/36386359/sqlalchemy-bulk-insert-with-one-to-one-relation
         """
-        Session = sessionmaker(bind=self.engine)
+        assert spider
 
-        with Session.begin() as session:
+        db_session = sessionmaker(bind=self.engine)
+        with db_session.begin() as session:
             products = {
                 product['_unique_id']: product
                 for product in self.products
