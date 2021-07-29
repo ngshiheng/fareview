@@ -28,7 +28,6 @@ class Qoo10Spider(scrapy.Spider):
         """
         @url https://www.qoo10.sg/gmkt.inc/Category/DefaultAjaxAppend.aspx?p=1&s=rv&v=lt&ct=300001029&ack=&ac=&f=st:SG|ct:300001029|&t=gc&pm=&cc=N&cb=N&cst=N
         @returns requests 1 100
-        @cb_kwargs {"callback": "https://www.qoo10.sg/item/CARLSBERG-CARLSBERG-DANISH-PILSNER-BEER-CAN-320ML-PACK-OF-48-BUNDLE-OF/674493902" }
         """
         logger.info(response.request.headers)
         logger.info(response.ip_address)
