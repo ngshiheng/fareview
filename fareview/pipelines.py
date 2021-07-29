@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from itemadapter import ItemAdapter
 from scrapy import Spider
@@ -28,9 +28,8 @@ class ExistingProductPricePipeline:
         """
         Initializes database connection and sessionmaker
         """
-        engine = db_connect()
-        create_table(engine)
-        self.session = sessionmaker(bind=engine)
+        self.engine = db_connect()
+        create_table(self.engine)
 
         self.prices = []
         self.products_update = []
@@ -47,16 +46,10 @@ class ExistingProductPricePipeline:
 
         new_price = float(price.amount)  # `.amount` is type of `<class 'decimal.Decimal'>`
 
-        session = self.session()
-        try:
+        Session = sessionmaker(bind=self.engine)
+
+        with Session.begin() as session:
             existing_product = session.query(Product).filter_by(brand=brand, url=url, quantity=quantity).one_or_none()
-
-        except Exception as exception:
-            logger.exception('An unexpected error has occurred.', extra=dict(exception=exception, brand=brand, url=url, quantity=quantity))
-            raise DropItem(f'Dropping item because item <{url}> because of an unexpected error.') from exception
-
-        finally:
-            session.close()
 
         if existing_product is not None:
             # Always update information for existing products
@@ -86,9 +79,9 @@ class ExistingProductPricePipeline:
         Saving all the scraped products and prices in bulk on spider close event
         We use `bulk_insert_mappings` instead of `bulk_save_objects` here as it accepts lists of plain Python dictionaries which results in less amount of overhead associated with instantiating mapped objects and assigning state to them, they are faster
         """
-        session = self.session()
+        Session = sessionmaker(bind=self.engine)
 
-        try:
+        with Session.begin() as session:
             session.bulk_update_mappings(Product, self.products_update)
             logger.info(f'Updated {len(self.products_update)} existing products information in bulk.')
 
@@ -96,14 +89,6 @@ class ExistingProductPricePipeline:
             session.bulk_insert_mappings(Price, prices)
             session.commit()
             logger.info(f'Created {len(self.prices)} new prices in bulk for existing products to the database.')
-
-        except Exception as error:
-            logger.exception(error, extra=dict(spider=spider))
-            session.rollback()
-            raise
-
-        finally:
-            session.close()
 
 
 class NewProductPricePipeline:
@@ -115,11 +100,10 @@ class NewProductPricePipeline:
         """
         Initializes database connection and sessionmaker
         """
-        engine = db_connect()
-        create_table(engine)
-        self.session = sessionmaker(bind=engine)
+        self.engine = db_connect()
+        create_table(self.engine)
 
-        self.products: List[Dict[str, Any]] = []
+        self.products: list[dict[str, Any]] = []
 
     def process_item(self, item: FareviewItem, spider: Spider) -> FareviewItem:
         """
@@ -143,7 +127,7 @@ class NewProductPricePipeline:
             volume=adapter.get('volume'),
             review_count=adapter.get('review_count'),
             attributes=adapter.get('attributes'),
-            price=adapter['price'].amount
+            price=adapter['price'].amount,
         )
 
         self.products.append(product)
@@ -159,9 +143,9 @@ class NewProductPricePipeline:
 
         Reference: https://stackoverflow.com/questions/36386359/sqlalchemy-bulk-insert-with-one-to-one-relation
         """
-        session = self.session()
+        Session = sessionmaker(bind=self.engine)
 
-        try:
+        with Session.begin() as session:
             products = {
                 product['_unique_id']: product
                 for product in self.products
@@ -175,11 +159,3 @@ class NewProductPricePipeline:
 
             logger.info(f'Created {len(products)} new products in bulk operation to the database.')
             logger.info(f'Created {len(prices)} new prices in bulk operation to the database.')
-
-        except Exception as error:
-            logger.exception(error, extra=dict(spider=spider))
-            session.rollback()
-            raise
-
-        finally:
-            session.close()
