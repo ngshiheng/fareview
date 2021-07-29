@@ -45,6 +45,9 @@ class LazadaSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
+        """
+        @url https://www.lazada.sg/shop-beer/tiger/?ajax=true&rating=4
+        """
         logger.info(response.request.headers)
         logger.info(response.ip_address)
 

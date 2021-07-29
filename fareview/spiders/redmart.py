@@ -42,6 +42,9 @@ class RedMartSpider(scrapy.Spider):
         return 1
 
     def parse(self, response):
+        """
+        @url https://redmart.lazada.sg/shop-beer/carlsberg/?ajax=true&m=redmart&rating=4
+        """
         logger.info(response.request.headers)
         logger.info(response.ip_address)
 
