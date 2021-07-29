@@ -37,7 +37,7 @@ class ShopeeSpider(scrapy.Spider):
     def parse(self, response):
         """
         @url https://shopee.sg/api/v4/search/search_items?by=sales&categoryids=100860&keyword=carlsberg&limit=60&newest=0&order=desc&page_type=search&rating_filter=4&scenario=PAGE_GLOBAL_SEARCH&skip_autocorrect=1&version=2
-        @returns items 1 60
+        @returns items 1
         @returns requests 0 0
         @scrapes platform name brand vendor url quantity review_count attributes price
         """

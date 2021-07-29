@@ -27,7 +27,7 @@ class Qoo10Spider(scrapy.Spider):
     def parse(self, response):
         """
         @url https://www.qoo10.sg/gmkt.inc/Category/DefaultAjaxAppend.aspx?p=1&s=rv&v=lt&ct=300001029&ack=&ac=&f=st:SG|ct:300001029|&t=gc&pm=&cc=N&cb=N&cst=N
-        @returns requests 1 100
+        @returns requests 1
         """
         logger.info(response.request.headers)
         logger.info(response.ip_address)
