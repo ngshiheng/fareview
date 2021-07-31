@@ -38,9 +38,9 @@ class Qoo10Spider(scrapy.Spider):
     def parse_product_details(self, response):
         loader = ItemLoader(item=FareviewItem(), selector=response)
 
-        name = response.xpath('//h2[@class="name"]/text()').get()
+        name = response.xpath('//h2[@class="goods-detail__name"]/text()').get()
         if not name:
-            logger.debug('Name is None')
+            logger.warning('Name is None')
             return
 
         # Skip product if it's not in `SUPPORTED_BRANDS`
