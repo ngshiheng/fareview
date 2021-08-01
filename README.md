@@ -21,19 +21,19 @@
 
 ```sh
 # To list all spiders
-pipenv run scrapy crawl list
+poetry run scrapy crawl list
 
 # To run a single spider
-pipenv run scrapy crawl shopee
+poetry run scrapy crawl shopee
 
 # To run single spider with json output
-pipenv run scrapy crawl shopee -o shopee.json
+poetry run scrapy crawl shopee -o shopee.json
 ```
 
 ### Run all spiders
 
 ```sh
-pipenv run scrapy list | xargs -n 1 pipenv run scrapy crawl
+poetry run scrapy list | xargs -n 1 poetry run scrapy crawl
 
 # Run on Heroku
 heroku run scrapy list | xargs -n 1 heroku run scrapy crawl
@@ -58,7 +58,7 @@ export SCRAPER_API_KEY="YOUR_SCRAPER_API_KEY"
 ngrok http 8443
 
 # Change your webhook_url to `https://f4a7bcaf1c23.ngrok.io`, then start app.py
-pipenv run python3 app.py
+poetry run python3 app.py
 ```
 
 ## Useful Scrapy Tools and Libraries
