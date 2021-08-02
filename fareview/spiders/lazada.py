@@ -61,7 +61,7 @@ class LazadaSpider(scrapy.Spider):
                 yield retry_request
             return
 
-        products = data['mods']['listItems']
+        products = data['mods'].get('listItems')
 
         # Stop sending requests when the REST API returns an empty array
         if products:
