@@ -16,6 +16,7 @@ price-parser = "^0.3.4"
 colorlog = "^5.0.1"
 python-telegram-bot = "^13.7"
 SQLAlchemy-Utils = "^0.37.8"
+alembic = "^1.6.5"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.5.7"
