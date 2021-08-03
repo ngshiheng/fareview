@@ -1,12 +1,18 @@
 from logging.config import fileConfig
 
+from fareview.models import Base
+from scrapy.utils.project import get_project_settings
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
 
+settings = get_project_settings()
+
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+config.set_main_option('sqlalchemy.url', settings.get('DATABASE_CONNECTION_STRING'))  # https://stackoverflow.com/a/27256675/10067850
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -16,7 +22,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
