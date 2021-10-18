@@ -13,7 +13,44 @@
 
 📈 Increase your sales and profit margins by uncovering your competitors' prices.
 
-# Project Usage Guide
+# Development Setup
+
+## Installation
+
+Make sure you have [poetry](https://python-poetry.org/docs/#installation) installed on your machine.
+
+```sh
+poetry install
+
+# Installing dependencies only
+poetry install --no-root
+
+# Updating dependencies to their latest versions
+poetry update
+```
+
+## Pre-commit Hooks
+
+Before you begin your development work, make sure you have installed [pre-commit hooks](https://pre-commit.com/index.html#installation).
+
+Some example useful invocations:
+
+-   `pre-commit install`: Default invocation. Installs the pre-commit script alongside any existing git hooks.
+-   `pre-commit install --install-hooks --overwrite`: Idempotently replaces existing git hook scripts with pre-commit, and also installs hook environments.
+
+## Database
+
+-   Make sure you have a running instance of the latest PostgreSQL in your local machine.
+
+```sh
+# Example to spin up a PostgreSQL Docker instance locally
+docker run -d --name dpostgres -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:latest
+```
+
+-   By default, the database for this project should be named as `fareview`.
+-   For database migration steps, please read [this](alembic/README.md).
+
+# Usage
 
 ## Start Crawling
 
@@ -45,7 +82,7 @@ heroku run scrapy list | xargs -n 1 heroku run scrapy crawl
 scrapy list | xargs -n 1 -P 0 scrapy crawl
 ```
 
-## Using Proxy (For Production)
+## Optional: Using Proxy (For Production)
 
 ```sh
 export SCRAPER_API_KEY="YOUR_SCRAPER_API_KEY"
@@ -60,6 +97,8 @@ ngrok http 8443
 # Change your webhook_url to `https://f4a7bcaf1c23.ngrok.io`, then start app.py
 poetry run python3 app.py
 ```
+
+# References
 
 ## Useful Scrapy Tools and Libraries
 
