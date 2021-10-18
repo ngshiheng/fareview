@@ -19,7 +19,7 @@ color_formatter = ColoredFormatter(
         'WARNING': 'red',
         'ERROR': 'bg_bold_red',
         'CRITICAL': 'red,bg_white',
-    }
+    },
 )
 
 _get_handler = copy.copy(scrapy.utils.log._get_handler)
@@ -137,7 +137,7 @@ HTTPCACHE_EXPIRATION_SECS = os.environ.get('HTTPCACHE_EXPIRATION_SECS', 0)
 # Sentry
 # https://stackoverflow.com/questions/25262765/handle-all-exception-in-scrapy-with-sentry
 SENTRY_ENABLED = os.environ.get('SENTRY_ENABLED', True)
-SENTRY_DSN = 'https://b850f4b1253f4e98901c6cad3d8b6607@o545253.ingest.sentry.io/5766355'
+SENTRY_DSN = os.environ.get('SENTRY_DSN')
 
 # PostgreSQL
 DATABASE_CONNECTION_STRING = '{drivername}://{user}:{password}@{host}:{port}/{db_name}'.format(
