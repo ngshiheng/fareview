@@ -13,6 +13,12 @@
 
 📈 Increase your sales and profit margins by uncovering your competitors' prices.
 
+## Demo
+
+-   You may find the list of commercial beer prices [here](https://docs.google.com/spreadsheets/d/1ImvPhsWp3mRF5lz7C55Ub2Z5okzitIvU6WG77YWL5PU/edit?usp=sharing)
+-   Prices updated **once** daily
+-   Click [here] to sign up for alerts
+
 # Development Setup
 
 ## Installation
