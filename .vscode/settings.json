@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/shihengng/Library/Caches/pypoetry/virtualenvs/fareview-TjKOl0C5-py3.9",
+    "python.pythonPath": "/home/jerryng/.cache/pypoetry/virtualenvs/fareview-thw2IY11-py3.9",
     "python.languageServer": "Pylance",
     "python.formatting.autopep8Args": [
         "--ignore",

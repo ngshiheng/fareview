@@ -5,7 +5,7 @@ description = "A simple, fast market price scanner."
 authors = ["Jerry Ng <ngshiheng@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "3.9.1"
+python = "^3.9"
 Scrapy = "^2.5.0"
 scrapy-fake-useragent = "^1.4.4"
 ipython = "^7.25.0"
