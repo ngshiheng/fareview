@@ -9,7 +9,8 @@
     "enabled": false
   },
   "extends": [
-    "config:base"
+    "config:base",
+    ":semanticCommits"
   ],
   "packageRules": [
     {
