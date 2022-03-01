@@ -6,7 +6,7 @@ authors = ["Jerry Ng <ngshiheng@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-Scrapy = "2.5.1"
+Scrapy = "==2.6.1"
 scrapy-fake-useragent = "1.4.4"
 ipython = "==8.1.0"
 sentry-sdk = "==1.5.6"
