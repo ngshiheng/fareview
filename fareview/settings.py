@@ -133,7 +133,6 @@ HTTPCACHE_EXPIRATION_SECS = os.environ.get('HTTPCACHE_EXPIRATION_SECS', 0)
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-
 # Sentry
 # https://stackoverflow.com/questions/25262765/handle-all-exception-in-scrapy-with-sentry
 SENTRY_ENABLED = os.environ.get('SENTRY_ENABLED', True)
@@ -149,8 +148,10 @@ DATABASE_CONNECTION_STRING = '{drivername}://{user}:{password}@{host}:{port}/{db
     db_name=os.environ.get('PG_DATABASE', 'fareview'),
 )
 
-
 # Telegram
 # https://github.com/python-telegram-bot/python-telegram-bot
 TELEGRAM_ENABLED = os.environ.get('TELEGRAM_ENABLED', False)
 TELEGRAM_API_TOKEN = os.environ.get('TELEGRAM_API_TOKEN')
+
+# Management Commands
+COMMANDS_MODULE = 'fareview.commands'
