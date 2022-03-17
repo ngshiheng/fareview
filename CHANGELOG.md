@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.0.2 (2022-03-17)
+### Fix
+* Run poetry lock after updating dependencies pyproject.toml manually ([`6d2f0b9`](https://github.com/ngshiheng/fareview/commit/6d2f0b9f3d0d615639e4af2ee3a9a5569b78dc1f))
+
 ## v1.0.1 (2022-03-17)
 ### Fix
 * **deps:** Update dependency alembic to v1.7.7 ([`7c020f5`](https://github.com/ngshiheng/fareview/commit/7c020f5ea6a2cf29cff89de41b047b5eb10d7e54))
