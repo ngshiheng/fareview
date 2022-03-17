@@ -1,12 +1,12 @@
-[![CI](https://github.com/ngshiheng/fareview/actions/workflows/ci.yml/badge.svg)](https://github.com/ngshiheng/fareview/actions/workflows/ci.yml)
-[![Semantic Release](https://github.com/ngshiheng/fareview/actions/workflows/release.yml/badge.svg)](https://github.com/ngshiheng/fareview/actions/workflows/release.yml)
-
 <h1 align="center"><strong>Fareview</strong></h1>
 
 <p align="center">
   <img width="auto" height="auto" src="https://media.giphy.com/media/3o6MbtelsDZdsbFB7i/giphy.gif">
 </p>
 <br />
+
+[![CI](https://github.com/ngshiheng/fareview/actions/workflows/ci.yml/badge.svg)](https://github.com/ngshiheng/fareview/actions/workflows/ci.yml)
+[![Semantic Release](https://github.com/ngshiheng/fareview/actions/workflows/release.yml/badge.svg)](https://github.com/ngshiheng/fareview/actions/workflows/release.yml)
 
 # What is Fareview?
 
