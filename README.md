@@ -1,3 +1,6 @@
+[![CI](https://github.com/ngshiheng/fareview/actions/workflows/ci.yml/badge.svg)](https://github.com/ngshiheng/fareview/actions/workflows/ci.yml)
+[![Semantic Release](https://github.com/ngshiheng/fareview/actions/workflows/release.yml/badge.svg)](https://github.com/ngshiheng/fareview/actions/workflows/release.yml)
+
 <h1 align="center"><strong>Fareview</strong></h1>
 
 <p align="center">
