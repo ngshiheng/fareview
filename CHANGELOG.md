@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.0 (2022-03-17)
+### Feature
+* Add util command and script to prune stale data ([`c0c2f90`](https://github.com/ngshiheng/fareview/commit/c0c2f90b55d2a3520504e1e9ad161fea611242de))
+
+### Documentation
+* Add status badges ([`170e5b2`](https://github.com/ngshiheng/fareview/commit/170e5b2d95f65ea01edab3c652a13b97ac2eaa42))
+
 ## v1.0.2 (2022-03-17)
 ### Fix
 * Run poetry lock after updating dependencies pyproject.toml manually ([`6d2f0b9`](https://github.com/ngshiheng/fareview/commit/6d2f0b9f3d0d615639e4af2ee3a9a5569b78dc1f))
