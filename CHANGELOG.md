@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.1 (2022-03-18)
+### Fix
+* **deps:** Update dependency sentry-sdk to v1.5.8 ([`36ccc23`](https://github.com/ngshiheng/fareview/commit/36ccc2359b21bad2bc91a7f5060a997a37b648af))
+
 ## v1.1.0 (2022-03-17)
 ### Feature
 * Add util command and script to prune stale data ([`c0c2f90`](https://github.com/ngshiheng/fareview/commit/c0c2f90b55d2a3520504e1e9ad161fea611242de))
