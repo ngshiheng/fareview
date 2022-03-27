@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.2 (2022-03-27)
+### Fix
+* **deps:** Update dependency ipython to v8.2.0 ([`d358519`](https://github.com/ngshiheng/fareview/commit/d358519e6803da245d45cfc1358c4315f5bff360))
+
 ## v1.1.1 (2022-03-18)
 ### Fix
 * **deps:** Update dependency sentry-sdk to v1.5.8 ([`36ccc23`](https://github.com/ngshiheng/fareview/commit/36ccc2359b21bad2bc91a7f5060a997a37b648af))
