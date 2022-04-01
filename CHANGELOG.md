@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.3 (2022-04-01)
+### Fix
+* **deps:** Update dependency sqlalchemy to v1.4.34 ([`ed3a564`](https://github.com/ngshiheng/fareview/commit/ed3a5649a0c16d71797e7122684e4d0a8d6c6743))
+
 ## v1.1.2 (2022-03-27)
 ### Fix
 * **deps:** Update dependency ipython to v8.2.0 ([`d358519`](https://github.com/ngshiheng/fareview/commit/d358519e6803da245d45cfc1358c4315f5bff360))
