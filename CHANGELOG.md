@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.7 (2022-04-28)
+### Fix
+* **deps:** Update dependency sqlalchemy to v1.4.36 ([`3b6d8fc`](https://github.com/ngshiheng/fareview/commit/3b6d8fc6bd8b87d3c4c41060a52862f4df0786d4))
+
 ## v1.1.6 (2022-04-15)
 ### Fix
 * **deps:** Update dependency sentry-sdk to v1.5.10 ([`6d89a18`](https://github.com/ngshiheng/fareview/commit/6d89a18036e46db855b06415c101965b63eecc9e))
