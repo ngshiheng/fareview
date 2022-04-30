@@ -16,11 +16,15 @@
 
 📈 Increase your sales and profit margins by uncovering your competitors' prices.
 
-## Demo
+## Disclaimer
 
--   You may find the list of commercial beer prices [here](https://docs.google.com/spreadsheets/d/1ImvPhsWp3mRF5lz7C55Ub2Z5okzitIvU6WG77YWL5PU/edit?usp=sharing)
--   Prices updated **once** daily
--   Click [here](https://t.me/FareviewBot) to sign up for alerts
+This software is only used for research purposes, users must abide by the relevant laws and regulations of their location, please do not use it for illegal purposes. The user shall bear all the consequences caused by illegal use.
+
+## Content
+
+- You may find the list of commercial beer prices [here](https://docs.google.com/spreadsheets/d/1ImvPhsWp3mRF5lz7C55Ub2Z5okzitIvU6WG77YWL5PU/edit?usp=sharing)
+- Prices updated **once** daily
+- Click [here](https://t.me/FareviewBot) to sign up for alerts on Telegram
 
 # Development Setup
 
@@ -44,24 +48,24 @@ Before you begin your development work, make sure you have installed [pre-commit
 
 Some example useful invocations:
 
--   `pre-commit install`: Default invocation. Installs the pre-commit script alongside any existing git hooks.
--   `pre-commit install --install-hooks --overwrite`: Idempotently replaces existing git hook scripts with pre-commit, and also installs hook environments.
+- `pre-commit install`: Default invocation. Installs the pre-commit script alongside any existing git hooks.
+- `pre-commit install --install-hooks --overwrite`: Idempotently replaces existing git hook scripts with pre-commit, and also installs hook environments.
 
 ## Database
 
--   Make sure you have a running instance of the latest PostgreSQL in your local machine.
+- Make sure you have a running instance of the latest PostgreSQL in your local machine.
 
 ```sh
 # Example to spin up a PostgreSQL Docker instance locally
 docker run -d --name dpostgres -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:latest
 ```
 
--   By default, the database for this project should be named as `fareview`.
--   For database migration steps, please read [this](alembic/README.md).
+- By default, the database for this project should be named as `fareview`.
+- For database migration steps, please read [this](alembic/README.md).
 
 # Usage
 
-## Start Crawling
+## Start crawling
 
 ### Run single spider
 
@@ -91,13 +95,13 @@ heroku run scrapy list | xargs -n 1 heroku run scrapy crawl
 scrapy list | xargs -n 1 -P 0 scrapy crawl
 ```
 
-## Optional: Using Proxy (For Production)
+## Proxy (optional)
 
 ```sh
 export SCRAPER_API_KEY="YOUR_SCRAPER_API_KEY"
 ```
 
-## Telegram Bot
+## Telegram bot (optional)
 
 ```sh
 # Start ngrok
@@ -107,11 +111,11 @@ ngrok http 8443
 poetry run python3 app.py
 ```
 
-## Contributing
+# Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-### Steps
+## Steps
 
 1. Fork this
 2. Create your feature branch (`git checkout -b feature/bar`)
@@ -124,4 +128,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Useful Scrapy Tools and Libraries
 
--   https://github.com/croqaz/awesome-scrapy
+- https://github.com/croqaz/awesome-scrapy
