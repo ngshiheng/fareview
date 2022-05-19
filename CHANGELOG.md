@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.9 (2022-05-19)
+### Fix
+* **deps:** Update dependency sentry-sdk to v1.5.12 ([`e760100`](https://github.com/ngshiheng/fareview/commit/e760100b273f7c81dc8726e8f190100748194b09))
+* **deps:** Update dependency sentry-sdk to v1.5.11 ([`07fdb54`](https://github.com/ngshiheng/fareview/commit/07fdb544013813af2fb209617e3f61b46215b952))
+
+### Documentation
+* Add disclaimer ([`b339cd2`](https://github.com/ngshiheng/fareview/commit/b339cd2af57394b918cfd2f31a59a11cd717e5f0))
+
 ## v1.1.8 (2022-04-29)
 ### Fix
 * **deps:** Update dependency ipython to v8.3.0 ([`51de436`](https://github.com/ngshiheng/fareview/commit/51de4366b3bb1f1e0f202f6d073c1355efb814c7))
