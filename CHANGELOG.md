@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.11 (2022-05-31)
+### Fix
+* **deps:** Update dependency alembic to v1.7.7 ([`bc1f21d`](https://github.com/ngshiheng/fareview/commit/bc1f21d7732b353a5736f934faef0910a72318e0))
+
 ## v1.1.10 (2022-05-31)
 ### Fix
 * **deps:** Update dependency ipython to v8.4.0 ([`79bd0e7`](https://github.com/ngshiheng/fareview/commit/79bd0e7e1cba06b95491a7537e30e0c0f2a041e5))
