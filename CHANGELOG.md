@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.12 (2022-06-01)
+### Fix
+* **deps:** Update dependency alembic to v1.8.0 ([`14d261f`](https://github.com/ngshiheng/fareview/commit/14d261f20b71d311549e88daecb4b870fe5de39c))
+
 ## v1.1.11 (2022-05-31)
 ### Fix
 * **deps:** Update dependency alembic to v1.7.7 ([`bc1f21d`](https://github.com/ngshiheng/fareview/commit/bc1f21d7732b353a5736f934faef0910a72318e0))
