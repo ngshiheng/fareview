@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.13 (2022-06-01)
+### Fix
+* **deps:** Update dependency sqlalchemy to v1.4.37 ([`bc446ca`](https://github.com/ngshiheng/fareview/commit/bc446ca4f5e96f43f53981ea86b1ede9cf564661))
+
 ## v1.1.12 (2022-06-01)
 ### Fix
 * **deps:** Update dependency alembic to v1.8.0 ([`14d261f`](https://github.com/ngshiheng/fareview/commit/14d261f20b71d311549e88daecb4b870fe5de39c))
