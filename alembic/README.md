@@ -18,7 +18,14 @@ _NOTE: You can always use `alembic downgrade -1` to revert any database migratio
 ## Examples of SQL Queries
 
 ```sh
-psql postgres -h 127.0.0.1 -d fareview -f <path>/<filename>.sql
+psql -v brand="'<brand>'" postgres -h 127.0.0.1 -d fareview -f <path>/<filename>.sql
+
+# E.g.:
+
+$ pwd
+/home/jerryng/Personal/fareview
+
+psql -v brand="'heineken'" postgres -h 127.0.0.1 -d fareview -f alembic/examples/get_all_by_brand.sql
 ```
 
 -   [Count the number of historical prices of all available products](./examples/get_number_of_prices.sql)

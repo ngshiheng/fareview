@@ -70,7 +70,7 @@ FROM
     AND(prev.price <> curr.price)
 WHERE
     p.quantity = 24
-    AND p.brand = 'carlsberg'
+    AND p.brand = :brand
 ORDER BY
     p.review_count DESC
 LIMIT
