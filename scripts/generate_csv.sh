@@ -9,5 +9,5 @@ PGUSER="${PGUSER-postgres}"
 
 mkdir -p data/
 for brand in "${BRANDS[@]}"; do
-    PGPASSWORD=$PGPASSWORD psql -v brand="'${brand}'" -h "$PGHOST" -U "$PGUSER" -d "$PGDATABASE" -F ',' -A -f alembic/examples/get_all_by_brand.sql >"data/${brand}.csv"
+    PGPASSWORD=$PGPASSWORD psql -v brand="'${brand}'" -h "$PGHOST" -U "$PGUSER" -d "$PGDATABASE" -F ',' -A -f --pset footer alembic/examples/get_all_by_brand.sql >"data/${brand}.csv"
 done
