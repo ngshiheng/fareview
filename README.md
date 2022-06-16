@@ -13,15 +13,16 @@
 
 ✔️ A simple & easy to use e-commerce price monitoring tool for vendors.
 
-🖥 Monitor product prices on top e-commerce platforms in Singapore.
+🖥 Monitor product prices on top e-commerce (shopee.sg, lazada.sg, qoo10.sg) platforms in Singapore.
 
-📈 Increase your sales and profit margins by uncovering your competitors' prices.
+📈 Increase your sales and profit margins by uncovering competitors' prices.
 
-## Table of Content
+## Table of Contents
 
 - [What is Fareview?](#what-is-fareview)
-- [Table of Content](#table-of-content)
+- [Table of Contents](#table-of-contents)
 - [Disclaimer](#disclaimer)
+- [Features](#features)
 - [Content](#content)
 - [Development Setup](#development-setup)
   - [Installation](#installation)
@@ -39,6 +40,21 @@
 ## Disclaimer
 
 This software is only used for research purposes, users must abide by the relevant laws and regulations of their location, please do not use it for illegal purposes. The user shall bear all the consequences caused by illegal use.
+
+## Features
+
+-   [x] Automated random user agent rotation
+-   [x] Colored logging
+-   [x] CSV update [cron job](./.github/workflows/generate_csv.yml) that updates [data](./data/)
+-   [x] Data deduplication pipeline
+-   [x] Database migration with [Alembic](https://alembic.sqlalchemy.org/en/latest/)
+-   [x] Delayed requests middleware
+-   [x] Error monitoring and alerting with [Sentry](https://sentry.io/)
+-   [x] Proxied requests with [Scraper API](https://www.scraperapi.com/?fp_ref=jerryng)
+-   [x] Requests retry
+-   [x] Scraper cron job that runs on Heroku
+-   [x] Telegram bot server with price alerts (experimental)
+-   [x] Uses [Railway](https://railway.app?referralCode=jerrynsh) PostgreSQL
 
 ## Content
 
