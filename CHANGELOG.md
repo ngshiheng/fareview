@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.14 (2022-06-22)
+### Fix
+* **deps:** Update dependency sentry-sdk to v1.6.0 ([`d91c3c0`](https://github.com/ngshiheng/fareview/commit/d91c3c06cab281b62cf14f6aa8094d4ecc8fdf10))
+* **scripts:** Fix flag sequence ([`dbaf9c9`](https://github.com/ngshiheng/fareview/commit/dbaf9c9cc888948d1ac62f62a6b27a5645ca304c))
+
+### Documentation
+* Add features ([`7084488`](https://github.com/ngshiheng/fareview/commit/708448884e95ec97090bb5bd05209c4fc3a290e4))
+* Add badges & table of content ([`6ec19ba`](https://github.com/ngshiheng/fareview/commit/6ec19ba57ef2687d28523dd5c0e856beda249347))
+* Update example SQL to use variable from CLI ([`174e625`](https://github.com/ngshiheng/fareview/commit/174e62504280939133b0ad1970dea8d94df002c2))
+* Move example sql queries to .sql files ([`e1b84fb`](https://github.com/ngshiheng/fareview/commit/e1b84fbb2138a1a801824567286ab14ef92dd5c9))
+
 ## v1.1.13 (2022-06-01)
 ### Fix
 * **deps:** Update dependency sqlalchemy to v1.4.37 ([`bc446ca`](https://github.com/ngshiheng/fareview/commit/bc446ca4f5e96f43f53981ea86b1ede9cf564661))
