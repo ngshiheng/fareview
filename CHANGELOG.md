@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.16 (2022-06-27)
+### Fix
+* **deps:** Update dependency Scrapy to v2.6.1 ([`0bc9b3d`](https://github.com/ngshiheng/fareview/commit/0bc9b3dcb1642a53e9ce5f7f521003c0d8271a23))
+
 ## v1.1.15 (2022-06-24)
 ### Fix
 * **deps:** Update dependency sqlalchemy to v1.4.39 ([`ed77697`](https://github.com/ngshiheng/fareview/commit/ed77697c472aee8cab18f892e652c7674d750e31))
