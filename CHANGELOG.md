@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.17 (2022-07-11)
+### Fix
+* **deps:** Update dependency sqlalchemy-utils to v0.38.3 ([`dd33263`](https://github.com/ngshiheng/fareview/commit/dd33263e35814be0544fb7f19303e91cd46c480d))
+
 ## v1.1.16 (2022-06-27)
 ### Fix
 * **deps:** Update dependency Scrapy to v2.6.1 ([`0bc9b3d`](https://github.com/ngshiheng/fareview/commit/0bc9b3dcb1642a53e9ce5f7f521003c0d8271a23))
