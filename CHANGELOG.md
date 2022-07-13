@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.19 (2022-07-13)
+### Fix
+* **deps:** Update dependency sentry-sdk to v1.7.1 ([`78ad07a`](https://github.com/ngshiheng/fareview/commit/78ad07a8fc6f9b96a2d39d9d7e196354cbc3b822))
+
 ## v1.1.18 (2022-07-11)
 ### Fix
 * **deps:** Update dependency sentry-sdk to v1.7.0 ([`efad65d`](https://github.com/ngshiheng/fareview/commit/efad65d923f9358ef4008dffcbf6112eb64060f6))
