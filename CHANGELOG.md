@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.20 (2022-07-14)
+### Fix
+* **deps:** Update dependency alembic to v1.8.1 ([`0cc82cf`](https://github.com/ngshiheng/fareview/commit/0cc82cf29956d727224feff9b7a92931e95392da))
+
 ## v1.1.19 (2022-07-13)
 ### Fix
 * **deps:** Update dependency sentry-sdk to v1.7.1 ([`78ad07a`](https://github.com/ngshiheng/fareview/commit/78ad07a8fc6f9b96a2d39d9d7e196354cbc3b822))
