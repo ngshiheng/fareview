@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.23 (2022-07-25)
+### Fix
+* **deps:** Update dependency scrapy to v2.6.2 ([`02f9afb`](https://github.com/ngshiheng/fareview/commit/02f9afb69dc003cf121ca96d677c4a4b1e1fbf5f))
+
 ## v1.1.22 (2022-07-21)
 ### Fix
 * **deps:** Update dependency sentry-sdk to v1.8.0 ([`31f350d`](https://github.com/ngshiheng/fareview/commit/31f350d5e00dd88b521c800c7dca5929fdc3587c))
