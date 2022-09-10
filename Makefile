@@ -1,5 +1,6 @@
 NAME := fareview
 POETRY := $(shell command -v poetry 2> /dev/null)
+PG_HOST := $(shell docker inspect -f '{{range.NetworkSettings.Networks}}{{.Gateway}}{{end}}' dpostgres)
 
 .DEFAULT_GOAL := help
 
@@ -10,6 +11,8 @@ help:
 	@echo "  install	install packages and prepare environment"
 	@echo "  clean		remove all temporary files"
 	@echo "  lint		run the code linters"
+	@echo "  build		build docker image for $(NAME)"
+	@echo "  run		run $(NAME) in docker"
 	@echo ""
 	@echo "Check the Makefile to know exactly what each target is doing."
 
@@ -28,7 +31,7 @@ lint:
 
 build:
 	docker build -t fareview . \
-	--build-arg PG_HOST=172.17.0.1 \
+	--build-arg PG_HOST=$(PG_HOST) \
 	--build-arg PG_PORT=5432 \
 	--build-arg ENVIRONMENT="development"
 
