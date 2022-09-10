@@ -34,4 +34,4 @@ build:
 
 run:
 	docker stop $(NAME) || true && docker rm $(NAME) || true
-	docker run --name $(NAME) $(NAME)
+	docker run -d --name $(NAME) $(NAME)

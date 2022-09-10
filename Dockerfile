@@ -7,7 +7,6 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DEFAULT_TIMEOUT=60 \
     POETRY_NO_INTERACTION=1 \
     POETRY_VERSION=${POETRY_VERSION}
-RUN pip install setuptools --upgrade
 WORKDIR /app
 
 FROM base AS builder
@@ -17,6 +16,8 @@ RUN pip install "poetry==$POETRY_VERSION"
 COPY pyproject.toml /app
 COPY poetry.lock /app
 RUN poetry install --no-root --no-dev
+RUN poetry run pip install --upgrade pip
+RUN poetry run pip install --upgrade setuptools
 
 FROM builder AS app
 ARG PG_USERNAME="postgres" \
