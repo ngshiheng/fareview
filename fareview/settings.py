@@ -102,7 +102,6 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
     'fareview.extensions.SentryLogging': -1,
-    'fareview.extensions.TelegramBot': 500,
 }
 
 # Configure item pipelines
@@ -148,10 +147,6 @@ DATABASE_CONNECTION_STRING = '{drivername}://{user}:{password}@{host}:{port}/{db
     db_name=os.environ.get('PG_DATABASE', 'fareview'),
 )
 
-# Telegram
-# https://github.com/python-telegram-bot/python-telegram-bot
-TELEGRAM_ENABLED = os.environ.get('TELEGRAM_ENABLED', False)
-TELEGRAM_API_TOKEN = os.environ.get('TELEGRAM_API_TOKEN')
 
 # Management Commands
 COMMANDS_MODULE = 'fareview.commands'

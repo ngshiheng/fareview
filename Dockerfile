@@ -21,16 +21,20 @@ RUN poetry run pip install --upgrade setuptools
 
 FROM builder AS app
 ARG PG_USERNAME="postgres" \
-    PG_PASSWORD="" \
-    PG_HOST="localhost" \
+    PG_PASSWORD \
+    PG_HOST \
     PG_PORT="5432" \
     PG_DATABASE="fareview" \
-    ENVIRONMENT="development"
+    SCRAPER_API_KEY \
+    SENTRY_DSN \
+    ENVIRONMENT
 ENV PG_USERNAME=${PG_USERNAME} \
     PG_PASSWORD=${PG_PASSWORD} \
     PG_HOST=${PG_HOST} \
     PG_PORT=${PG_PORT} \
     PG_DATABASE=${PG_DATABASE} \
+    SCRAPER_API_KEY=${SCRAPER_API_KEY} \
+    SENTRY_DSN=${SENTRY_DSN} \
     ENVIRONMENT=${ENVIRONMENT}
 COPY . .
 CMD ["sh", "-c", "poetry run scrapy list | xargs -n 1 poetry run scrapy crawl"]
