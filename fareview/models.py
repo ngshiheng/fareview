@@ -74,6 +74,7 @@ class Product(Base):
 
 
 class User(Base):
+    """Deprecated"""
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
