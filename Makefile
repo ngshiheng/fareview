@@ -32,7 +32,6 @@ lint:
 build:
 	docker build -t fareview . \
 	--build-arg PG_HOST=$(PG_HOST) \
-	--build-arg PG_PORT=5432 \
 	--build-arg ENVIRONMENT="development"
 
 run:

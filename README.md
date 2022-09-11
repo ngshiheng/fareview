@@ -34,7 +34,6 @@
     - [Run all spiders](#run-all-spiders)
     - [Run all spiders, in parallel](#run-all-spiders-in-parallel)
   - [Proxy & Sentry (optional)](#proxy--sentry-optional)
-  - [Telegram bot (optional)](#telegram-bot-optional)
 - [Contributing](#contributing)
 
 ## Disclaimer
@@ -53,7 +52,6 @@ This software is only used for research purposes, users must abide by the releva
 -   [x] Proxied requests with [Scraper API](https://www.scraperapi.com/?fp_ref=jerryng)
 -   [x] Requests retry
 -   [x] Scraper cron job that runs on Heroku
--   [x] Telegram bot server with price alerts (experimental)
 -   [x] Uses [Railway](https://railway.app?referralCode=jerrynsh) PostgreSQL
 
 ## Content
@@ -138,18 +136,6 @@ scrapy list | xargs -n 1 -P 0 scrapy crawl
 export SCRAPER_API_KEY="<YOUR_SCRAPER_API_KEY>"
 export SENTRY_DSN="<YOUR_SENTRY_DSN>"
 ```
-
-### Telegram bot (optional)
-
-```sh
-# Start ngrok
-ngrok http 8443
-
-# Change your webhook_url to `https://f4a7bcaf1c23.ngrok.io`, then start app.py
-poetry run python3 app.py
-```
-
-Click [here](https://t.me/FareviewBot) to sign up for alerts on Telegram.
 
 ## Contributing
 

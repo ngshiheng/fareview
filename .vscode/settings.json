@@ -1,17 +1,9 @@
 {
-    "python.pythonPath": "/home/jerryng/.cache/pypoetry/virtualenvs/fareview-thw2IY11-py3.9",
     "python.languageServer": "Pylance",
-    "python.formatting.autopep8Args": [
-        "--ignore",
-        "E501",
-    ],
+    "python.formatting.autopep8Args": ["--ignore", "W503", "E501"],
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
-    "python.linting.flake8Args": [
-        "--ignore",
-        "E501",
-        "--verbose"
-    ],
+    "python.linting.flake8Args": ["--ignore", "E501", "W503", "--verbose"],
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
     "python.analysis.typeCheckingMode": "basic"
