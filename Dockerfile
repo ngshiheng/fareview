@@ -1,5 +1,7 @@
 ARG PYTHON_VERSION=3.10
+
 FROM python:${PYTHON_VERSION}-slim AS base
+ARG POETRY_VERSION=1.1.15
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
@@ -10,31 +12,15 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 FROM base AS builder
-
-ARG POETRY_VERSION=1.1.15
+ARG ENVIRONMENT
+ENV ENVIRONMENT=${ENVIRONMENT}
 RUN pip install "poetry==$POETRY_VERSION"
 COPY pyproject.toml /app
 COPY poetry.lock /app
-RUN poetry install --no-root --no-dev
-RUN poetry run pip install --upgrade pip
-RUN poetry run pip install --upgrade setuptools
+RUN poetry install --no-root \
+    $(if [ "$ENVIRONMENT" = 'production' ]; then echo '--no-dev'; fi) \
+    --no-interaction --no-ansi
 
 FROM builder AS app
-ARG PG_USERNAME="postgres" \
-    PG_PASSWORD \
-    PG_HOST \
-    PG_PORT="5432" \
-    PG_DATABASE="fareview" \
-    SCRAPER_API_KEY \
-    SENTRY_DSN \
-    ENVIRONMENT
-ENV PG_USERNAME=${PG_USERNAME} \
-    PG_PASSWORD=${PG_PASSWORD} \
-    PG_HOST=${PG_HOST} \
-    PG_PORT=${PG_PORT} \
-    PG_DATABASE=${PG_DATABASE} \
-    SCRAPER_API_KEY=${SCRAPER_API_KEY} \
-    SENTRY_DSN=${SENTRY_DSN} \
-    ENVIRONMENT=${ENVIRONMENT}
 COPY . .
 CMD ["sh", "-c", "poetry run scrapy list | xargs -n 1 poetry run scrapy crawl"]
