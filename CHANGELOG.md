@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.27 (2022-10-31)
+### Fix
+* **deps:** Update dependency psycopg2-binary to v2.9.5 ([`a471537`](https://github.com/ngshiheng/fareview/commit/a471537bdef3e60b56cbce3144e4bf87b0307939))
+
 ## v1.1.26 (2022-10-01)
 ### Fix
 * **deps:** Update dependency sentry-sdk to v1.9.9 ([`9e72c1c`](https://github.com/ngshiheng/fareview/commit/9e72c1cf60c3e8234e11e0cd9e8e4c67e31dcf37))
