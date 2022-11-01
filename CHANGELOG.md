@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.28 (2022-11-01)
+### Fix
+* **deps:** Update dependency sqlalchemy to v1.4.42 ([`e5e72cf`](https://github.com/ngshiheng/fareview/commit/e5e72cff0bcd97abf91adadf563838dc031ad98a))
+
 ## v1.1.27 (2022-10-31)
 ### Fix
 * **deps:** Update dependency psycopg2-binary to v2.9.5 ([`a471537`](https://github.com/ngshiheng/fareview/commit/a471537bdef3e60b56cbce3144e4bf87b0307939))
