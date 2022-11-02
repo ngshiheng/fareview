@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.29 (2022-11-02)
+### Fix
+* Downgrade to python3.9 ([`e9895e0`](https://github.com/ngshiheng/fareview/commit/e9895e08508425b3c982cdc1afbbeb8a2303b773))
+
 ## v1.1.28 (2022-11-01)
 ### Fix
 * **deps:** Update dependency sqlalchemy to v1.4.42 ([`e5e72cf`](https://github.com/ngshiheng/fareview/commit/e5e72cff0bcd97abf91adadf563838dc031ad98a))
