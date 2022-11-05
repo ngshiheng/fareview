@@ -51,7 +51,6 @@ This software is only used for research purposes, users must abide by the releva
 -   [x] Error monitoring and alerting with [Sentry](https://sentry.io/)
 -   [x] Proxied requests with [Scraper API](https://www.scraperapi.com/?fp_ref=jerryng)
 -   [x] Requests retry
--   [x] Scraper cron job that runs on Heroku
 -   [x] Uses [Railway](https://railway.app?referralCode=jerrynsh) PostgreSQL
 
 ## Content
@@ -117,9 +116,6 @@ poetry run scrapy crawl shopee -o shopee.json
 
 ```sh
 poetry run scrapy list | xargs -n 1 poetry run scrapy crawl
-
-# Run on Heroku
-heroku run scrapy list | xargs -n 1 heroku run scrapy crawl
 ```
 
 #### Run all spiders, in parallel
