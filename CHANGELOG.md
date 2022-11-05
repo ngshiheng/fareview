@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.30 (2022-11-05)
+### Fix
+* **spider:** Shopee spider regression due to api requirement change ([`441c28d`](https://github.com/ngshiheng/fareview/commit/441c28de694e7a5488028acba34eeb479defbf23))
+
 ## v1.1.29 (2022-11-02)
 ### Fix
 * Downgrade to python3.9 ([`e9895e0`](https://github.com/ngshiheng/fareview/commit/e9895e08508425b3c982cdc1afbbeb8a2303b773))
