@@ -3,9 +3,10 @@ import os
 import re
 
 import scrapy
-from fareview.items import FareviewItem
 from scrapy.loader import ItemLoader
 from scrapy.utils.project import get_project_settings
+
+from fareview.items import FareviewItem
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +34,14 @@ class ShopeeSpider(scrapy.Spider):
         f'https://shopee.sg/api/v4/search/search_items?by=sales&categoryids=100860&keyword={keyword}&limit=60&newest=0&order=desc&page_type=search&rating_filter=4&scenario=PAGE_GLOBAL_SEARCH&skip_autocorrect=1&version=2'
         for keyword in settings.get('SUPPORTED_BRANDS')
     ]
+
+    headers = {
+        'af-ac-enc-dat': 'AAcyLjQuMS0yAAABhEL7l5QAAAtFAj4AAAAAAAAAAOYyhFAbVQMMpIKa2+dGIBkKaWUVkWOzjLDykZY2dhCO2aemln1UTUS5+au1jIfY7R1Euk28HZ2GTC6Gy8upKta1AomlahQQzJTI3QAyabrcR+HjRE5RJ4xmgqF0pQNNgJWI5Ixc+XXsPExyZcR6n6fQ8y9qv9e+0i2RFxL9D/LW5RfDxbm3aN4QLhF3xSQUSdhFgxFdjSR7fl8kZiNFp11d12JqI4GTqcIATPt0rYY/lg4GZtDRXf4x2yTcLYISZjjnR9AUjPhml6U83c4YR74/vnZjSA2ERGYorMHDENw4Z9+Tuci8nLq+lJGsF/QQZ4cpeG2ZUbatRPTf42k24UXHBZsicXs8yj3KGje9gM5DBdGp9SC7AzprcJ/dvAMt1ZE2pQeZodbQEboXldfnVQFaMWIRa4PXPgZbPTbQrS6pIpLnj37lZQEr3GBZds8j2v70yZKvj0zWrczR/hh97tTxzycK0Dv39rAuuGC+V6bDol7tQtal5Gv4mni39rtOgLdZw4Hfjpcb9HHvBsWrWyhnyF1hqOdk2mvItkQwyQJac9YQx1Jd3lC+REE4Rd+g0DJE9KlDf2xEAkaDTZA0clzBUpm1uAhv9Tyih0QRRViyudt/vxC3q7r7Amu/FcS/fiwQIrKIho5LxORIkIvYHmXWjcsYEz9S9S9p+tV1HIfZaPBju6lh2dK2YKJ14RudySmaqnWRY7OMsPKRljZ2EI7Zp6aWkWOzjLDykZY2dhCO2aemlszDf5SsFtL4FgoZmajdOR0=',
+    }
+
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url=url, callback=self.parse, headers=self.headers)
 
     def parse(self, response):
         """
