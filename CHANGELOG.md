@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.32 (2022-11-18)
+### Fix
+* **deps:** Update dependency ipython to v8.6.0 ([`fad91c4`](https://github.com/ngshiheng/fareview/commit/fad91c4515bc3b162c5e1561c23f3d580e366149))
+
 ## v1.1.31 (2022-11-18)
 ### Fix
 * **deps:** Update dependency sqlalchemy to v1.4.44 ([`b781ee0`](https://github.com/ngshiheng/fareview/commit/b781ee0a5beb81c81382826f038b04e63d1abea9))
