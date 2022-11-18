@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.31 (2022-11-18)
+### Fix
+* **deps:** Update dependency sqlalchemy to v1.4.44 ([`b781ee0`](https://github.com/ngshiheng/fareview/commit/b781ee0a5beb81c81382826f038b04e63d1abea9))
+
 ## v1.1.30 (2022-11-05)
 ### Fix
 * **spider:** Shopee spider regression due to api requirement change ([`441c28d`](https://github.com/ngshiheng/fareview/commit/441c28de694e7a5488028acba34eeb479defbf23))
