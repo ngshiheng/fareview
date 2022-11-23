@@ -29,7 +29,6 @@ jobs:
                   poetry-version: "${{ matrix.poetry-version }}"
             - name: Install dependencies
               run: |
-                  pip3 install setuptools --upgrade
                   poetry install --no-root
             - name: Run flake8 and unittest
               run: |
