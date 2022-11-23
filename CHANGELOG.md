@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.33 (2022-11-23)
+### Fix
+* Install setuptool ([`b47a5b4`](https://github.com/ngshiheng/fareview/commit/b47a5b4d40e82a4f51ee58f0cd049cbb8e1cb8b1))
+
 ## v1.1.32 (2022-11-18)
 ### Fix
 * **deps:** Update dependency ipython to v8.6.0 ([`fad91c4`](https://github.com/ngshiheng/fareview/commit/fad91c4515bc3b162c5e1561c23f3d580e366149))
