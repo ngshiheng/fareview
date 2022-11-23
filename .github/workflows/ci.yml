@@ -17,7 +17,7 @@ jobs:
                     - "3.9"
                     - "3.10"
                 poetry-version:
-                    - 1.1.13
+                    - 1.1.15
         steps:
             - uses: actions/checkout@v3
             - name: "Set up Python ${{ matrix.python-version }}"
@@ -29,6 +29,7 @@ jobs:
                   poetry-version: "${{ matrix.poetry-version }}"
             - name: Install dependencies
               run: |
+                  pip3 install setuptools --upgrade
                   poetry install --no-root
             - name: Run flake8 and unittest
               run: |
