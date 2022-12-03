@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.34 (2022-12-03)
+### Fix
+* **deps:** Update dependency ipython to v8.7.0 ([`69eabfa`](https://github.com/ngshiheng/fareview/commit/69eabfa8bf44d62434f62e86835df8745b5f10a1))
+
 ## v1.1.33 (2022-11-23)
 ### Fix
 * Install setuptool ([`b47a5b4`](https://github.com/ngshiheng/fareview/commit/b47a5b4d40e82a4f51ee58f0cd049cbb8e1cb8b1))
