@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.35 (2022-12-03)
+### Fix
+* **deps:** Update dependency colorlog to v6.7.0 ([`2207fc0`](https://github.com/ngshiheng/fareview/commit/2207fc0484fd856286f712843b9b717a7120713d))
+
 ## v1.1.34 (2022-12-03)
 ### Fix
 * **deps:** Update dependency ipython to v8.7.0 ([`69eabfa`](https://github.com/ngshiheng/fareview/commit/69eabfa8bf44d62434f62e86835df8745b5f10a1))
