@@ -21,7 +21,7 @@ sentry-sdk = "==1.9.9"
 autopep8 = "==1.7.0"
 flake8 = "==5.0.4"
 pre-commit = "==2.20.0"
-setuptools = "^65.6.0"
+setuptools = "65.6.3"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
