@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.36 (2022-12-03)
+### Fix
+* **deps:** Update dependency sentry-sdk to v1.11.1 ([`37bb386`](https://github.com/ngshiheng/fareview/commit/37bb3862f8de3401b16cf9026359d4d11fc49fda))
+
 ## v1.1.35 (2022-12-03)
 ### Fix
 * **deps:** Update dependency colorlog to v6.7.0 ([`2207fc0`](https://github.com/ngshiheng/fareview/commit/2207fc0484fd856286f712843b9b717a7120713d))
