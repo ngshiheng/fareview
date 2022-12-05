@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.37 (2022-12-05)
+### Fix
+* Poetry tries to remove setuptools and then complains it can't find it ([`acde39e`](https://github.com/ngshiheng/fareview/commit/acde39eef170d899a5a4afa9a5ba4b2f24709f97))
+* **deps:** Update dependency scrapy to v2.7.1 ([`470a193`](https://github.com/ngshiheng/fareview/commit/470a193260d1f6889b059ca75333cfbcf5c394f1))
+
 ## v1.1.36 (2022-12-03)
 ### Fix
 * **deps:** Update dependency sentry-sdk to v1.11.1 ([`37bb386`](https://github.com/ngshiheng/fareview/commit/37bb3862f8de3401b16cf9026359d4d11fc49fda))
