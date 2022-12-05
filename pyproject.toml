@@ -16,12 +16,12 @@ psycopg2-binary = "==2.9.5"
 python = "^3.9"
 scrapy-fake-useragent = "1.4.4"
 sentry-sdk = "==1.11.1"
+setuptools = "^65.6.3"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.7.0"
 flake8 = "==5.0.4"
 pre-commit = "==2.20.0"
-setuptools = "65.6.3"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
