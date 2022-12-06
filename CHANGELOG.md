@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.38 (2022-12-06)
+### Fix
+* **deps:** Pin dependency setuptools to 65.6.3 ([`d7da75e`](https://github.com/ngshiheng/fareview/commit/d7da75ee53d6d12754eda0929668fd608bf7663b))
+
 ## v1.1.37 (2022-12-05)
 ### Fix
 * Poetry tries to remove setuptools and then complains it can't find it ([`acde39e`](https://github.com/ngshiheng/fareview/commit/acde39eef170d899a5a4afa9a5ba4b2f24709f97))
