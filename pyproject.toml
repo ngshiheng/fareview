@@ -16,7 +16,7 @@ psycopg2-binary = "==2.9.5"
 python = "^3.9"
 scrapy-fake-useragent = "1.4.4"
 sentry-sdk = "==1.11.1"
-setuptools = "^65.6.3"
+setuptools = "65.6.3"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "==1.7.0"
