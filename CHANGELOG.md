@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.39 (2022-12-16)
+### Fix
+* **spider:** Handle captcha ([`71a090e`](https://github.com/ngshiheng/fareview/commit/71a090e8e9b7f21f03dbbac6f51e76748f55012a))
+
 ## v1.1.38 (2022-12-06)
 ### Fix
 * **deps:** Pin dependency setuptools to 65.6.3 ([`d7da75e`](https://github.com/ngshiheng/fareview/commit/d7da75ee53d6d12754eda0929668fd608bf7663b))
