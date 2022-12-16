@@ -3,10 +3,11 @@ import os
 import re
 
 import scrapy
-from fareview.items import FareviewItem
 from scrapy.downloadermiddlewares.retry import get_retry_request
 from scrapy.loader import ItemLoader
 from scrapy.utils.project import get_project_settings
+
+from fareview.items import FareviewItem
 
 logger = logging.getLogger(__name__)
 
@@ -14,10 +15,6 @@ settings = get_project_settings()
 
 
 class RedMartSpider(scrapy.Spider):
-    """
-    Whenever HTTPCACHE_ENABLED is True, retry requests doesn't seem to work well
-    I have a feeling that is because referer is being set with cached which Lazada endpoints don't seem to like it
-    """
     name = 'redmart'
     custom_settings = {
         'DOWNLOAD_DELAY': os.environ.get('REDMART_DOWNLOAD_DELAY', 30),
@@ -48,9 +45,7 @@ class RedMartSpider(scrapy.Spider):
         logger.info(response.request.headers)
         logger.info(response.ip_address)
 
-        data = response.json()
-
-        if 'rgv587_flag' in data:
+        if 'captcha' in response.text:
             error = f'Rate limited by Red Mart. URL <{response.request.url}>. IP <{response.ip_address}>.'
 
             retry_request = get_retry_request(response.request, reason=error, spider=self)
@@ -58,6 +53,7 @@ class RedMartSpider(scrapy.Spider):
                 yield retry_request
             return
 
+        data = response.json()
         products = data['mods'].get('listItems')
 
         # Stop sending requests when the REST API returns an empty array
