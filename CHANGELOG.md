@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.0 (2022-12-18)
+### Feature
+* **spider:** Handle captcha challenge ([`c6ce456`](https://github.com/ngshiheng/fareview/commit/c6ce4560e26d338c6454064f792ce343a8738a69))
+
 ## v1.1.39 (2022-12-16)
 ### Fix
 * **spider:** Handle captcha ([`71a090e`](https://github.com/ngshiheng/fareview/commit/71a090e8e9b7f21f03dbbac6f51e76748f55012a))

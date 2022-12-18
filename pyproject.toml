@@ -2,7 +2,7 @@
 authors = ["Jerry Ng <ngshiheng@gmail.com>"]
 description = "A simple, fast market price scanner."
 name = "fareview"
-version = "1.1.39"
+version = "1.2.0"
 
 [tool.poetry.dependencies]
 SQLAlchemy = "==1.4.44"
