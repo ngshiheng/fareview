@@ -3,6 +3,7 @@ import os
 import re
 
 import scrapy
+from scrapy.downloadermiddlewares.retry import get_retry_request
 from scrapy.loader import ItemLoader
 from scrapy.utils.project import get_project_settings
 
@@ -54,6 +55,14 @@ class ShopeeSpider(scrapy.Spider):
         logger.info(response.ip_address)
 
         data = response.json()
+        if 'captcha' in data:
+            error = f'Challenged by Shopee. URL <{response.request.url}>. IP <{response.ip_address}>.'
+
+            retry_request = get_retry_request(response.request, reason=error, spider=self)
+            if retry_request:
+                yield retry_request
+            return
+
         items = data['items']
 
         brand = re.search(r'keyword=(\w+)&', response.request.url).group(1)
