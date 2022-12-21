@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.1 (2022-12-21)
+### Fix
+* **spider:** Increase download delay & add delay between requests for shopee ([`0b69cae`](https://github.com/ngshiheng/fareview/commit/0b69caef2edf20345adf7bb8f6ad0eb9aae203b8))
+
 ## v1.2.0 (2022-12-18)
 ### Feature
 * **spider:** Handle captcha challenge ([`c6ce456`](https://github.com/ngshiheng/fareview/commit/c6ce4560e26d338c6454064f792ce343a8738a69))
