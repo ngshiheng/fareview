@@ -28,7 +28,11 @@ class ShopeeSpider(scrapy.Spider):
     """
     name = 'shopee'
     custom_settings = {
-        'DOWNLOAD_DELAY': os.environ.get('SHOPEE_DOWNLOAD_DELAY', 5),
+        'DOWNLOAD_DELAY': os.environ.get('SHOPEE_DOWNLOAD_DELAY', 60),
+        'DOWNLOADER_MIDDLEWARES': {
+            **settings.get('DOWNLOADER_MIDDLEWARES'),
+            'fareview.middlewares.DelayedRequestsMiddleware': 100,
+        },
     }
 
     start_urls = [
@@ -37,7 +41,7 @@ class ShopeeSpider(scrapy.Spider):
     ]
 
     headers = {
-        'af-ac-enc-dat': 'AAcyLjQuMS0yAAABhEL7l5QAAAtFAj4AAAAAAAAAAOYyhFAbVQMMpIKa2+dGIBkKaWUVkWOzjLDykZY2dhCO2aemln1UTUS5+au1jIfY7R1Euk28HZ2GTC6Gy8upKta1AomlahQQzJTI3QAyabrcR+HjRE5RJ4xmgqF0pQNNgJWI5Ixc+XXsPExyZcR6n6fQ8y9qv9e+0i2RFxL9D/LW5RfDxbm3aN4QLhF3xSQUSdhFgxFdjSR7fl8kZiNFp11d12JqI4GTqcIATPt0rYY/lg4GZtDRXf4x2yTcLYISZjjnR9AUjPhml6U83c4YR74/vnZjSA2ERGYorMHDENw4Z9+Tuci8nLq+lJGsF/QQZ4cpeG2ZUbatRPTf42k24UXHBZsicXs8yj3KGje9gM5DBdGp9SC7AzprcJ/dvAMt1ZE2pQeZodbQEboXldfnVQFaMWIRa4PXPgZbPTbQrS6pIpLnj37lZQEr3GBZds8j2v70yZKvj0zWrczR/hh97tTxzycK0Dv39rAuuGC+V6bDol7tQtal5Gv4mni39rtOgLdZw4Hfjpcb9HHvBsWrWyhnyF1hqOdk2mvItkQwyQJac9YQx1Jd3lC+REE4Rd+g0DJE9KlDf2xEAkaDTZA0clzBUpm1uAhv9Tyih0QRRViyudt/vxC3q7r7Amu/FcS/fiwQIrKIho5LxORIkIvYHmXWjcsYEz9S9S9p+tV1HIfZaPBju6lh2dK2YKJ14RudySmaqnWRY7OMsPKRljZ2EI7Zp6aWkWOzjLDykZY2dhCO2aemlszDf5SsFtL4FgoZmajdOR0=',
+        'af-ac-enc-dat': 'AAcyLjUuMC0yAAABhTHNY+IAAA8RAuAAAAAAAAAAAuvlR3weVVU60ykHUkkzSmQs+0sol/82EyfDx/bVRcPaaRvYm2HbOiPVt6hB0HAjTAwjYX8IWDX7g61V4QmAQAFLKauqoRk96ECw69dLQlYAAnQoRmv3CKlElgGaoKX5ImIkf0MZlcTrh+nB0CBEt+gDEF5l14gn7zv27hzgjt6hN8APdyIegnbmhFArdL/RxUry9cOMycxsdIDQM+ODTHGp53b+AN533ToSyEq5XNpJg4KJ+7GBSK6XH2g0CbfqVYn9F+uHgnOMbQmJ0DN0C8bvxcKLBZhmwdiP6VgaEoKkhMgonF/+wozCuUFxKBrQw44hMGaX/zYTJ8PH9tVFw9ppG9ibFL6FFVtxdrgfhUe1x1h3rw7kzL3gRGGMPpQYugB7di11yWs8g5EXgCo7x09f4CdFdG9DB38nh65U6+o94yEt3oO7i5suvhtxQ4sEDZzZuZ3hW60K+smhOYYGQH4w44WxN7O7IofDww1wM/r+pufhJkatt8la5FiUWn4nS1xSTq8akFOHlP+z7E50wqb06wIKzOhSEoCDq8ldg+RcTmGj6lzRcbx+u+wuFArvx+zvDDADUzAo7YpZrzJG3NU1I8Tny8W6LkL4KiSFzjuz0gQUix0M3gtM3QNLkWnZ3uivVKpHavivIHolfOCd7veQccOb8MS3gD4Lv0cZsWDYYHdpR1c3Np8BzcsRRPm/ZZgFLUkcF6sQRVOFZERU8tJ5ZczdgB1xOGqN7PIb94O08sVSMFzRcbx+u+wuFArvx+zvDDC0y5WLb/4O97leNkLwzVk+3whGcRbtuybBi/nvnxi60Fy7UBsXQP/li7TBps6nqhXRHJJ2HKErNOh5euwKv/tW29epMeIAg6F91FIObWlA4cloO/QLz/E2Q7O4muXDQ8JIA/TtWmBoI5o7mG3pL/q/eKwBEqMBKXUHgceF9ulY2PKdmalj/urvofGc5w+3XtJeyyxpna6kuPaep/AiH6HE',
     }
 
     def start_requests(self):
@@ -51,12 +55,9 @@ class ShopeeSpider(scrapy.Spider):
         @returns requests 0 0
         @scrapes platform name brand vendor url quantity review_count attributes price
         """
-        logger.info(response.request.headers)
-        logger.info(response.ip_address)
-
         data = response.json()
-        if 'captcha' in data:
-            error = f'Challenged by Shopee. URL <{response.request.url}>. IP <{response.ip_address}>.'
+        if 'items' not in data:
+            error = f'Challenged by Shopee. URL <{response.request.url}>. Request headers <{response.request.headers}>.'
 
             retry_request = get_retry_request(response.request, reason=error, spider=self)
             if retry_request:
@@ -64,7 +65,6 @@ class ShopeeSpider(scrapy.Spider):
             return
 
         items = data['items']
-
         brand = re.search(r'keyword=(\w+)&', response.request.url).group(1)
 
         # Stop sending requests when the REST API returns an empty array
