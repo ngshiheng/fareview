@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.2 (2022-12-31)
+### Fix
+* **deps:** Update dependency sqlalchemy to v1.4.45 ([`7a0e6a2`](https://github.com/ngshiheng/fareview/commit/7a0e6a2c01d04c266334f70c2c80eea327a82783))
+
 ## v1.2.1 (2022-12-21)
 ### Fix
 * **spider:** Increase download delay & add delay between requests for shopee ([`0b69cae`](https://github.com/ngshiheng/fareview/commit/0b69caef2edf20345adf7bb8f6ad0eb9aae203b8))
